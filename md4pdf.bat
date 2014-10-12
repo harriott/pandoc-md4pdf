@@ -12,7 +12,7 @@ rem populate a temporary tex file for the titling:
 set bn=%1
 set bln=%bn:_=\_% & rem escaped underscores in filename for passing to TeX
 set pn=%bn%.pdf
-echo \renewcommand\contentsname{%bln%} \renewcommand{\thechapter}{} \usepackage{titlesec} \titleformat{\chapter}{}{}{0em}{\bfseries\LARGE} \titlespacing{\chapter}{0pt}{30pt}{*2} \makeevenfoot{plain}{}{%bln% \quad p.\thepage\ }{} \makeoddfoot{plain}{}{%bln% \quad p.\thepage\ }{}> md4pdf.tex
+echo \renewcommand\contentsname{%bln%} \renewcommand{\thechapter}{} \usepackage{titlesec} \titleformat{\chapter}{}{}{0em}{\bfseries\LARGE} \titlespacing{\chapter}{0pt}{30pt}{*2} \usepackage{xcolor} \makeevenfoot{plain}{}{\textcolor{lightgray}{%bln%} \quad p.\thepage\ }{} \makeoddfoot{plain}{}{\textcolor{lightgray}{%bln%} \quad p.\thepage\ }{}> md4pdf.tex
 
 rem set the ToC Pandoc switches (the default case) if no 2nd argument was given:
 if -%2-==-- set tc=--toc --toc-depth=4

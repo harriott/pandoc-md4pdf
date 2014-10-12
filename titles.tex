@@ -26,6 +26,7 @@
 % Tidy the Chapter-header spacing (http://tex.stackexchange.com/questions/47953/how-can-i-hide-the-chapter-headings-number-on-latex-and-change-the-spacing):
 \titlespacing{\chapter}{0pt}{30pt}{*2}
 
+\usepackage{xcolor}
 % Use Memoir's inbuilt commands to reformat the footer (could replace "Page" with the file's name):
-\makeevenfoot{plain}{}{Page \thepage\ }{}
-\makeoddfoot{plain}{}{Page \thepage\ }{}
+\makeevenfoot{plain}{}{\textcolor{lightgray}{Page} \thepage\ }{}
+ \makeoddfoot{plain}{}{\textcolor{lightgray}{Page} \thepage\ }{}
