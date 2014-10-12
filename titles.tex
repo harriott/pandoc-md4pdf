@@ -8,7 +8,7 @@
 
 % pandoc -Vdocumentclass:memoir -Vclassoption:article -H <path_to_this_file> -Vmainfont:Arial --toc --toc-depth=4 -f markdown_strict content_file.md -o content_file.pdf --latex-engine=xelatex
 
-% Using memoir(article) moves headings up one level so that the first is Chapter, which has some snags that this file resolves.
+% Using memoir(article) moves headings up one level so that the first is Chapter, which has some snags that this file resolves.  I also add in text before the page number.
 
 % Joseph Harriott, 10/14
 % ----------------------
@@ -25,3 +25,7 @@
 
 % Tidy the Chapter-header spacing (http://tex.stackexchange.com/questions/47953/how-can-i-hide-the-chapter-headings-number-on-latex-and-change-the-spacing):
 \titlespacing{\chapter}{0pt}{30pt}{*2}
+
+% Use Memoir's inbuilt commands to reformat the footer (could replace "Page" with the file's name):
+\makeevenfoot{plain}{}{Page \thepage\ }{}
+\makeoddfoot{plain}{}{Page \thepage\ }{}

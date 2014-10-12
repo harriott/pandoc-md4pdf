@@ -25,7 +25,7 @@ foreach{
 	if($gp){
 		# Prepare the Titling:
 		$Ln=$fn.replace("_","\_") # escape underscores for LaTeX
-		echo "\renewcommand\contentsname{$Ln} \renewcommand{\thechapter}{} \usepackage{titlesec} \titleformat{\chapter}{}{}{0em}{\bfseries\LARGE} \titlespacing{\chapter}{0pt}{30pt}{*2}" |
+		echo "\renewcommand\contentsname{$Ln} \renewcommand{\thechapter}{} \usepackage{titlesec} \titleformat{\chapter}{}{}{0em}{\bfseries\LARGE} \titlespacing{\chapter}{0pt}{30pt}{*2} \makeevenfoot{plain}{}{%bn:_=\_% p.\thepage\ }{} \makeoddfoot{plain}{}{%bn:_=\_% p.\thepage\ }{}" |
 		out-file md4pdf.tex -encoding UTF8
 		"- running pandoc"
 		&pandoc -Vdocumentclass:memoir -Vclassoption:article -H md4pdf.tex -V mainfont:Arial --toc --toc-depth=4 -f markdown_strict $md -o $pdf --latex-engine=xelatex
