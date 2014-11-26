@@ -7,13 +7,15 @@ For markdown files containing up to four level of heading, here are three small 
 Windows 7 at least, with LaTeX, Pandoc and SumatraPDF installed.
 
 ### Vim modeline
-eg my `Europe.md` notes file begins thus:
+If you want it to be hidden in the pdf, then do something like this:
 ```markdown
 ---
 [//]: # ( vim: set fdm=expr:)
 
 Does the cartography workshop where Christopher Columbus lived in Lisbon still exist?
 ```
+(- which I use with my [vimfiles\ftplugin\markdown.vim](https://github.com/harriott/vimfiles/blob/master/ftplugin/markdown.vim)).
+
 ---
 ## titles.tex
 A LaTeX pre-configuration file for Pandoc, included by way of explanation of the 4th-level markdown heading snag that I have resolved here by pushing headings up a LaTeX level, and tidying up the top one (now Chapter).

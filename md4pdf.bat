@@ -1,6 +1,6 @@
 @echo off
 rem vim: set tw=0:
-rem Joseph Harriott - http://momentary.eu/
+rem Joseph Harriott - http://momentary.eu/ 26/11/14
 rem Convert markdown file to pdf nicely.
 rem Put this in your path (eg C:\Users\jo\AppData\Local\Pandoc),
 rem and call it from the markdown file's directory thus: md4pdf basename.
@@ -18,7 +18,8 @@ rem set the ToC Pandoc switches (the default case) if no 2nd argument was given:
 if -%2-==-- set tc=--toc --toc-depth=4
 
 rem if there was a 1st argument given (try to) Pandoc with it:
-if not -%1-==-- start /wait pandoc -Vdocumentclass:memoir -Vclassoption:article -H md4pdf.tex -Vmainfont:Arial %tc% -f markdown_strict %1.md -o %pn% --latex-engine=xelatex
+echo running pandoc on %1.md
+if not -%1-==-- start/b/w pandoc -Vdocumentclass:memoir -Vclassoption:article -H md4pdf.tex -Vmainfont:Arial %tc% -f markdown_strict %1.md -o %pn% --latex-engine=xelatex
 
 del md4pdf.tex & rem tidy up, anyway.
 
