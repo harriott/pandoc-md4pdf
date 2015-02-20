@@ -2,7 +2,7 @@
 rem vim: set tw=0:
 rem Joseph Harriott - http://momentary.eu/ 26/11/14
 rem Convert markdown file to pdf nicely.
-rem Put this in your path (eg C:\Users\jo\AppData\Local\Pandoc),
+rem Put this script in your path (eg C:\Users\jo\AppData\Local\Pandoc),
 rem and call it from the markdown file's directory thus: md4pdf basename.
 rem ---------------------------------------------------------------------
 
@@ -24,4 +24,4 @@ if not -%1-==-- start/b/w pandoc -Vdocumentclass:memoir -Vclassoption:article -H
 del md4pdf.tex & rem tidy up, anyway.
 
 rem if a pdf's been made, open it nicely:
-if exist %pn% start SumatraPDF -view "continuous facing" -page 1 -reuse-instance %1.pdf
+if exist %pn% start SumatraPDF -view "continuous facing" -page 1 -reuse-instance %pn%
