@@ -9,7 +9,7 @@ rem ---------------------------------------------------------------------
 setlocal & rem all variables now local
 
 rem populate a temporary tex file for the titling:
-set bn=%1
+set bn=%~n1
 set bln=%bn:_=\_% & rem escaped underscores in filename for passing to TeX
 set pn=%bn%.pdf
 echo \renewcommand\contentsname{%bln%} \renewcommand{\thechapter}{} \usepackage{titlesec} \titleformat{\chapter}{}{}{0em}{\bfseries\LARGE} \titlespacing{\chapter}{0pt}{30pt}{*2} \usepackage{xcolor} \makeevenfoot{plain}{}{\textcolor{lightgray}{%bln%} \quad p.\thepage\ }{} \makeoddfoot{plain}{}{\textcolor{lightgray}{%bln%} \quad p.\thepage\ }{}> md4pdf.tex
@@ -18,8 +18,8 @@ rem set the ToC Pandoc switches (the default case) if no 2nd argument was given:
 if -%2-==-- set tc=--toc --toc-depth=4
 
 rem if there was a 1st argument given (try to) Pandoc with it:
-echo running pandoc on %1.md
-if not -%1-==-- start/b/w pandoc -Vdocumentclass:memoir -Vclassoption:article -H md4pdf.tex -Vmainfont:Arial %tc% -f markdown_strict %1.md -o %pn% --latex-engine=xelatex
+echo running pandoc on %bn%.md
+if not -%bn%-==-- start/b/w pandoc -Vdocumentclass:memoir -Vclassoption:article -H md4pdf.tex -Vmainfont:Arial %tc% -f markdown_strict %bn%.md -o %pn% --latex-engine=xelatex
 
 del md4pdf.tex & rem tidy up, anyway.
 
