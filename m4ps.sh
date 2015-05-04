@@ -16,6 +16,6 @@ updatepdfs () {
 mdfiles=$(find . -name '*.md')
 for mdfile in $mdfiles; do
 	mdf=${mdfile%.*}
-	updatepdfs $mdf
+    echo $absmd4pdf $mdf "$tc"
 done
 
