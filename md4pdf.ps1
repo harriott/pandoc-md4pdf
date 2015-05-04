@@ -1,9 +1,8 @@
 # vim: set tw=0: http://momentary.eu/
 
-# Recursively find all *.md files in the current directory, convert those that haven't been done yet or have changed since last converted to pdf. Use LaTeX Chapter as the first level heading, and Subsubsection as the 4th (and preferably last) level heading. Apply some neater formatting.
-
 # Joseph Harriott 07/10/14
-# ------------------------
+# Recursively find all *.md files in the current directory, convert those that haven't been done yet or have changed since last converted to pdf. Use LaTeX Chapter as the first level heading, and Subsubsection as the 4th (and preferably last) level heading. Apply some neater formatting.
+# ----------------------------------------------------------------------------------------------
 
 gci -r -i *.md| # get all the markdown files recursively
 foreach{
