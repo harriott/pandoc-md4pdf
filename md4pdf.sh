@@ -17,8 +17,9 @@ echo "\renewcommand\contentsname{$bn} \renewcommand{\thechapter}{} \usepackage{t
 # if there was a 1st argument given (try to) Pandoc with it:
 echo "running pandoc on $1.md"
 if [ $1 ]; then
-	pandoc -Vdocumentclass:memoir -Vclassoption:article -Vclassoption:a4paper -H md4pdf.tex -Vmainfont:Arial \
-	-Vsubparagraph:yes $2 -f markdown_strict $1.md -o $1.pdf --latex-engine=xelatex;
+	pandoc -V documentclass=memoir -V classoption=article -V classoption=a4paper \
+	-H md4pdf.tex -V mainfont=Arial -V subparagraph=yes $2 -f markdown_strict $1.md -o $1.pdf \
+	--latex-engine=xelatex;
 fi
 
 # tidy up, anyway:
