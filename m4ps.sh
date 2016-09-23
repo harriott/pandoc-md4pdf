@@ -8,7 +8,7 @@
 # If a second argument is given, ToC is switched off.
 
 # set the (Pandoc) ToC switches:
-if [ ! $2 ]; then tc="--toc --toc-depth=4"; fi
+if [ ! $2 ]; then tc="--toc --toc-depth=5"; fi
 
 absmd4pdf="$( dirname "${BASH_SOURCE[0]}" )/md4pdf.sh"
 

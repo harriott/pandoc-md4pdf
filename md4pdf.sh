@@ -1,27 +1,28 @@
 #!/bin/bash
-# vim: set tw=0
+# vim: set et tw=0:
 
-# Joseph Harriott http://momentary.eu/ Mon 11 Jul 2016
+# Joseph Harriott http://momentary.eu/  Sat 24 Sep 2016
 # Engine to convert markdown file to pdf nicely.
-# ----------------------------------------------------
+# -----------------------------------------------------
 # Call this from a wrapper: md4pdf.sh md-file-basename pandoc-toc-settings
 
-# Populate a temporary tex file for the titling:
-# (escaping any underscores in filename for passing to TeX)
-bn=${1//_/\\_}
-echo "\renewcommand\contentsname{$bn} \renewcommand{\thechapter}{} \usepackage{titlesec}
-\titleformat{\chapter}{}{}{0em}{\bfseries\LARGE} \titlespacing{\chapter}{0pt}{30pt}{*2}
-\usepackage{xcolor} \makeevenfoot{plain}{}{\textcolor{lightgray}{$bn} \quad p.\thepage\ }{}
-\makeoddfoot{plain}{}{\textcolor{lightgray}{$bn} \quad p.\thepage\ }{}" > md4pdf.tex
-
-# if there was a 1st argument given (try to) Pandoc with it:
-echo "running pandoc on $1.md"
 if [ $1 ]; then
-	pandoc -V documentclass=memoir -V classoption=article -V classoption=a4paper \
-	-H md4pdf.tex -V mainfont=Arial -V subparagraph=yes $2 -f markdown_strict $1.md -o $1.pdf \
-	--latex-engine=xelatex;
+    # get the generic include-in-header file:
+    giih="$( dirname "${BASH_SOURCE[0]}" )/md4pdf-iih.tex"
+
+    # generate the specific include-in-header file:
+    bn=${1//_/\\_} # (escaping any underscores in filename for passing to TeX)
+    iih=$1-md4pdf-iih.tex
+    echo " \renewcommand\contentsname{$bn} " > $iih
+    echo " \cfoot{ {\textcolor{lightgray}{$bn}} \quad p.\thepage\ of \pageref{LastPage}} " >> $iih
+
+    echo "running pandoc on $1.md" # (try to) Pandoc
+    pandoc --verbose -V subparagraph=yes -H $giih -H $iih -V mainfont=Arial $2 \
+        -f markdown_strict $1.md -o $1.pdf --latex-engine=xelatex > $1-md4pdf.log;
+
+    sed -n '/\[makePDF] Contents of /{n;:a;N;/end{document}/!ba;p}' $1-md4pdf.log \
+        > $1-md4pdf-raw.tex # for diagnosis (can xelatex directly)
+
+    # Tidy up:
+    rm $1-md4pdf.log $1-md4pdf-iih.tex $1-md4pdf-raw.tex
 fi
-
-# tidy up, anyway:
-rm md4pdf.tex
-
