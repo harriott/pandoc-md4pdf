@@ -19,9 +19,9 @@ if -%2-==-- set tc=--toc --toc-depth=4
 
 rem if there was a 1st argument given (try to) Pandoc with it:
 echo running pandoc on %bn%.md
-if not -%bn%-==-- start/b/w pandoc -Vdocumentclass:memoir -Vclassoption:article -H md4pdf.tex -Vmainfont:Arial %tc% -f markdown_strict %bn%.md -o %pn% --latex-engine=xelatex
+if not -%bn%-==-- start/b/w pandoc -Vdocumentclass:memoir -Vclassoption:article -Vclassoption:a4paper -H md4pdf.tex -Vmainfont:Arial -Vsubparagraph:yes %tc% -f markdown_strict %bn%.md -o %pn% --latex-engine=xelatex
 
-del md4pdf.tex & rem tidy up, anyway.
+rem del md4pdf.tex & rem tidy up, anyway.
 
 rem if a pdf's been made, open it nicely:
 if exist %pn% start SumatraPDF -view "continuous facing" -page 1 -reuse-instance %pn%
