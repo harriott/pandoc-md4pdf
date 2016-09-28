@@ -10,14 +10,14 @@ $mdf="$mdbn.md"
 if (test-path "$mdf") {
     $giih="$PSScriptRoot\md4pdf-iih.tex" # the generic include-in-header file
 
-    # generate the specific include-in-header file:
-    $iih="$mdbn-md4pdf-iih.tex"
-    $texbn=$mdbn.replace('_','\\_') # escaping any underscores in filename for passing to TeX
-    " \renewcommand\contentsname{$texbn} " > $iih
-    " \cfoot{ {\textcolor{lightgray}{$texbn}} \quad p.\thepage\ of \pageref{LastPage}} " >> $iih
+    # Generate the specific include-in-header file:
+    $texbn=$mdbn.replace('\','/').replace('_','\_') # prepares the filename for feeding to TeX
+    $iihLines="\renewcommand\contentsname{$texbn}`r`n\cfoot{ {\textcolor{lightgray}{$texbn}} \quad p.\thepage\ of \pageref{LastPage}}"
+    $iihf=$(gci "$mdbn-md4pdf-iih.tex").fullname
+    [IO.File]::WriteAllLines($iihf, $iihLines)
 
     "running pandoc on $mdf" # (try to) Pandoc
-    "pandoc --verbose -V subparagraph=yes -H $giih -H $iih -V mainfont=Arial $toc -f markdown_strict $mdf -o $mdbn.pdf --latex-engine=xelatex"
+    "pandoc --verbose -V subparagraph=yes -H $giih -H $iihf -V mainfont=Arial $toc -f markdown_strict $mdf -o $mdbn.pdf --latex-engine=xelatex"
     #pandoc --verbose -V subparagraph=yes -H $giih -H $iih -V mainfont=Arial $toc -f markdown_strict $mdf -o $mdbn.pdf --latex-engine=xelatex > $mdbn-md4pdf.log;
 
 }else{
