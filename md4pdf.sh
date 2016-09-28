@@ -11,8 +11,8 @@ if [ $1 ]; then
     giih="$( dirname "${BASH_SOURCE[0]}" )/md4pdf-iih.tex"
 
     # generate the specific include-in-header file:
-    bn=${1//_/\\_} # (escaping any underscores in filename for passing to TeX)
     iih=$1-md4pdf-iih.tex
+    bn=${1//_/\\_} # (escaping any underscores in filename for passing to TeX)
     echo " \renewcommand\contentsname{$bn} " > $iih
     echo " \cfoot{ {\textcolor{lightgray}{$bn}} \quad p.\thepage\ of \pageref{LastPage}} " >> $iih
 

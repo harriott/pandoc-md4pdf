@@ -1,34 +1,26 @@
-# vim: set tw=0: http://momentary.eu/
+# vim: set et tw=0:
+# Joseph Harriott  http://momentary.eu/  Sat 24 Sep 2016
+# Engine to convert markdown file to pdf nicely.
+# ------------------------------------------------------
+# Call this from a wrapper: md4pdf.ps1 md-file-basename [pandoc-toc-settings]
 
-# Joseph Harriott 07/10/14
-# Recursively find all *.md files in the current directory, convert those that haven't been done yet or have changed since last converted to pdf. Use LaTeX Chapter as the first level heading, and Subsubsection as the 4th (and preferably last) level heading. Apply some neater formatting.
-# ----------------------------------------------------------------------------------------------
+param( [string]$mdbn=$(throw "$PSCommandPath requires markdown basename"), [string]$toc )
 
-gci -r -i *.md| # get all the markdown files recursively
-foreach{
-	$fn=$_.basename
-	$md=$_.fullname
-	$mdt=$_.LastWriteTime
-	"$md -> $mdt" # print the markdown file's fullname with LastWriteTime
-	$gp=$false # set a "go pdf" boolean
-	$pdf=$_.directoryname+"\"+$fn+".pdf"
-	if (test-path "$pdf"){
-		gi "$pdf"|
-		foreach{
-			$pdft=$_.LastWriteTime;
-			if($pdft -gt $mdt){"$pdf > $pdft"} # and print the pdf's name & time
-			else{$gp=$true;"$pdf > $pdft - to redo"} # or signal it's to be redone
-			}
-		}
-	else{$gp=$true;"$pdf -- not yet made"} # no pdf, so signal it's to be done
-	if($gp){
-		# Prepare the Titling:
-		$Ln=$fn.replace("_","\_") # escape underscores for LaTeX
-		echo "\renewcommand\contentsname{$Ln} \renewcommand{\thechapter}{} \usepackage{titlesec} \titleformat{\chapter}{}{}{0em}{\bfseries\LARGE} \titlespacing{\chapter}{0pt}{30pt}{*2} \usepackage{xcolor} \makeevenfoot{plain}{}{\textcolor{lightgray}{$Ln} \quad p.\thepage\ }{} \makeoddfoot{plain}{}{\textcolor{lightgray}{$Ln} \quad p.\thepage\ }{}" |
-		out-file md4pdf.tex -encoding UTF8
-		"- running pandoc"
-		&pandoc -Vdocumentclass:memoir -Vclassoption:article -H md4pdf.tex -V mainfont:Arial --toc --toc-depth=4 -f markdown_strict $md -o $pdf --latex-engine=xelatex
-		rm md4pdf.tex # tidy up
-		}
-	}
+$mdf="$mdbn.md"
+if (test-path "$mdf") {
+    $giih="$PSScriptRoot\md4pdf-iih.tex" # the generic include-in-header file
 
+    # generate the specific include-in-header file:
+    $iih="$mdbn-md4pdf-iih.tex"
+    $texbn=$mdbn.replace('_','\\_') # escaping any underscores in filename for passing to TeX
+    " \renewcommand\contentsname{$texbn} " > $iih
+    " \cfoot{ {\textcolor{lightgray}{$texbn}} \quad p.\thepage\ of \pageref{LastPage}} " >> $iih
+
+    "running pandoc on $mdf" # (try to) Pandoc
+    "pandoc --verbose -V subparagraph=yes -H $giih -H $iih -V mainfont=Arial $toc -f markdown_strict $mdf -o $mdbn.pdf --latex-engine=xelatex"
+    #pandoc --verbose -V subparagraph=yes -H $giih -H $iih -V mainfont=Arial $toc -f markdown_strict $mdf -o $mdbn.pdf --latex-engine=xelatex > $mdbn-md4pdf.log;
+
+}else{
+    Write-Host "$PSCommandPath : file " -foregroundcolor red -backgroundcolor white -nonewline;
+    Write-Host "$mdf" -foregroundcolor red -backgroundcolor yellow -nonewline;
+    Write-Host " ain't there" -foregroundcolor red -backgroundcolor white }
