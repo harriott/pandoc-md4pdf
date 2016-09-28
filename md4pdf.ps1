@@ -17,8 +17,7 @@ if (test-path "$mdf") {
     [IO.File]::WriteAllLines($iihf, $iihLines)
 
     "running pandoc on $mdf" # (try to) Pandoc
-    "pandoc --verbose -V subparagraph=yes -H $giih -H $iihf -V mainfont=Arial $toc -f markdown_strict $mdf -o $mdbn.pdf --latex-engine=xelatex"
-    #pandoc --verbose -V subparagraph=yes -H $giih -H $iih -V mainfont=Arial $toc -f markdown_strict $mdf -o $mdbn.pdf --latex-engine=xelatex > $mdbn-md4pdf.log;
+    pandoc --verbose -V subparagraph=yes -H $giih -H $iihf -V mainfont=Arial $toc -f markdown_strict $mdf -o "$mdbn.pdf" --latex-engine=xelatex > "$mdbn-md4pdf.log";
 
 }else{
     Write-Host "$PSCommandPath : file " -foregroundcolor red -backgroundcolor white -nonewline;
