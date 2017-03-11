@@ -24,6 +24,7 @@ if (test-path "$mdf") {
     # ---------------
     pandoc -V subparagraph=yes -H $giih -H $iihf -V mainfont=Arial $toc $tocd -f markdown_strict "$mdf" -o "$mdbn.pdf" --latex-engine=xelatex
     ri $iihf # tidy up, anyway
+    # occasionally the temporary  tex2pdf.*  folders don't get cleared, due to Dropbox I suppose...
 }else{
     Write-Host "$PSCommandPath : file " -foregroundcolor red -backgroundcolor white -nonewline;
     Write-Host "$mdf" -foregroundcolor red -backgroundcolor yellow -nonewline;
