@@ -1,7 +1,7 @@
 #!/bin/bash
 # vim: set et tw=0:
 
-# Joseph Harriott http://momentary.eu/  Sun 25 Dec 2016
+# Joseph Harriott http://momentary.eu/  Mon 27 Nov 2017
 # Engine to convert markdown file to pdf nicely.
 # -----------------------------------------------------
 # Call this from a wrapper: md4pdf.sh md-file-basename pandoc-toc-settings
@@ -19,7 +19,7 @@ if [ $1 ]; then
 
     echo "running pandoc on $1.md" # (try to) Pandoc
     pandoc --verbose -V subparagraph=yes -H $giih -H $iih -V mainfont="Liberation Sans" $2 \
-        -f markdown_strict $1.md -o $1.pdf --latex-engine=xelatex > $1-md4pdf.log;
+        -f markdown_strict $1.md -o $1.pdf --pdf-engine=xelatex > $1-md4pdf.log;
 
     sed -n '/\[makePDF] Contents of /{n;:a;N;/end{document}/!ba;p}' $1-md4pdf.log \
         > $1-md4pdf-raw.tex # for diagnosis (can xelatex directly)
