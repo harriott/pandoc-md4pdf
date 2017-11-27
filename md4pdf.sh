@@ -18,7 +18,7 @@ if [ $1 ]; then
     echo " \cfoot{ {\textcolor{lightgray}{$bn1}} \quad p.\thepage\ of \pageref{LastPage}} " >> $iih
 
     echo "running pandoc on $1.md" # (try to) Pandoc
-    pandoc --verbose -V subparagraph=yes -H $giih -H $iih -V mainfont="Liberation Sans" $2 \
+    pandoc --verbose -V subparagraph=yes -H $giih -H $iih -V mainfont="DejaVu Sans" $2 \
         -f markdown_strict $1.md -o $1.pdf --pdf-engine=xelatex > $1-md4pdf.log;
 
     sed -n '/\[makePDF] Contents of /{n;:a;N;/end{document}/!ba;p}' $1-md4pdf.log \
