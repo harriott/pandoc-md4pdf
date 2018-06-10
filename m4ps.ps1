@@ -1,10 +1,11 @@
-#!/bin/bash
-# vim: set et tw=0:
+# Wed 16 Dec 2015!/bin/bash
+# vim: set et fdl=4 tw=0:
 
 # Joseph Harriott http://momentary.eu/  Tue 27 Mar 2018
 # Recursively find all *.md files in the current directory, convert those that haven't been done yet or have changed since last converted to pdf. Use LaTeX Chapter as the first level heading, and Subsubsection as the 4th (and preferably last) level heading. Apply some neater formatting.
 # --------------------------------------------------------------------------------------------------
 # eg  m4ps -r -n  would redo all pdf's, and switch off ToC
+
 param( [switch]$redo, [switch]$noToC )
 if (!$noToC) {$ToC="--toc --toc-depth=5"}
 

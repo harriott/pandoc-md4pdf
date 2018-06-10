@@ -1,16 +1,16 @@
 # vim: set et tw=0:
 
-# Joseph Harriott http://momentary.eu/  Thu 29 Sep 2016
+# Joseph Harriott http://momentary.eu/  Sun 10 Jun 2018
 # Convert a single markdown file to pdf nicely.
 # -----------------------------------------------------
 
-param( [string]$md=$(throw "$PSCommandPath requires an md file"), [string]$tocoff )
+param( [string]$md=$(throw "$PSCommandPath requires an md file"), [switch]$noToC )
 
 $mdfbn=$md -replace '\.md$','' # get md file basename
 $mdf=$mdfbn + ".md"
 if (test-path "$mdf") {
     # set the Pandoc ToC switches (the default case) if no 2nd argument was given:
-    if (!$tocoff) {$toc="--toc --toc-depth=5"}
+    if (!$noToC) {$ToC="--toc --toc-depth=5"}
 
     "running pandoc on $mdf"
     PowerShell -NoProfile "$PSScriptRoot\md4pdf.ps1 $mdfbn $toc"
