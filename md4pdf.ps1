@@ -22,7 +22,7 @@ if (test-path "$mdf") {
 
     # (try to) Pandoc
     # ---------------
-    pandoc -V subparagraph=yes -H $giih -H $iihf -V mainfont=Arial $toc $tocd -f markdown_strict "$mdf" -o "$mdbn.pdf" --latex-engine=xelatex
+    pandoc -V subparagraph=yes -H $giih -H $iihf -V mainfont=Arial -V CJKmainfont='Noto Sans CJK SC Regular' $toc $tocd -f markdown_strict "$mdf" -o "$mdbn.pdf" --pdf-engine=xelatex
     ri $iihf # tidy up, anyway
     # occasionally the temporary  tex2pdf.*  folders don't get cleared, due to Dropbox I suppose...
 }else{
