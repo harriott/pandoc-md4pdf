@@ -1,6 +1,6 @@
 # vim: set et tw=0:
 
-# Joseph Harriott http://momentary.eu/  Sun 10 Jun 2018
+# Joseph Harriott http://momentary.eu/  Fri 24 Aug 2018
 # Convert a single markdown file to pdf nicely.
 # -----------------------------------------------------
 
@@ -19,3 +19,5 @@ if (test-path "$mdf") {
     Write-Host "$mdf" -foregroundcolor red -backgroundcolor yellow -nonewline;
     Write-Host " ain't there" -foregroundcolor red -backgroundcolor white
 }
+
+ri tex2pdf.????* # remove trailing work folders
