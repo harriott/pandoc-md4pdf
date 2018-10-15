@@ -1,11 +1,11 @@
 # vim: set et tw=0:
-# Joseph Harriott  http://momentary.eu/  Tue 04 Oct 2016
+# Joseph Harriott  http://momentary.eu/  Mon 15 Oct 2018
 # Engine to convert markdown file to pdf nicely.
 # ------------------------------------------------------
 # Call this from a wrapper: md4pdf.ps1 md-file-basename [pandoc-toc-settings]
 
 param( [string]$mdbn=$(throw "$PSCommandPath requires an md file basename"),
-    [string]$toc, [string]$tocd )
+    [string]$param1, [string]$param2 )
 
 $mdf="$mdbn.md"
 if (test-path "$mdf") {
@@ -22,7 +22,7 @@ if (test-path "$mdf") {
 
     # (try to) Pandoc
     # ---------------
-    pandoc -V subparagraph=yes -H $giih -H $iihf -V mainfont=Arial -V CJKmainfont='Noto Sans CJK SC Regular' $toc $tocd -f markdown_strict "$mdf" -o "$mdbn.pdf" --pdf-engine=xelatex
+    pandoc -V subparagraph=yes -H $giih -H $iihf -V mainfont=Arial -V CJKmainfont='Noto Sans CJK SC Regular' $param1 $param2 -f markdown_strict "$mdf" -o "$mdbn.pdf" --pdf-engine=xelatex
     ri $iihf # tidy up, anyway
     # occasionally the temporary  tex2pdf.*  folders don't get cleared, due to Dropbox I suppose...
 }else{
