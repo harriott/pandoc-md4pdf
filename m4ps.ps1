@@ -39,4 +39,4 @@ foreach{
         }
     }
 
-ri tex2pdf.????* # remove trailing work folders
+ri tex2pdf.???* # remove trailing work folders
