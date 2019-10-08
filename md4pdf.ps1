@@ -1,5 +1,5 @@
 # vim: set et tw=0:
-# Joseph Harriott  http://momentary.eu/  Mon 15 Oct 2018
+# Joseph Harriott  http://momentary.eu/  Mon 07 Oct 2019
 # Engine to convert markdown file to pdf nicely.
 # ------------------------------------------------------
 # Call this from a wrapper: md4pdf.ps1 md-file-basename [pandoc-toc-settings]

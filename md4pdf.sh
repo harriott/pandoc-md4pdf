@@ -1,7 +1,7 @@
 #!/bin/bash
 # vim: set et tw=0:
 
-# Joseph Harriott http://momentary.eu/  Thu 21 Dec 2017
+# Joseph Harriott http://momentary.eu/  Mon 07 Oct 2019
 # Engine to convert markdown file to pdf nicely.
 # -----------------------------------------------------
 # Call this from a wrapper: md4pdf.sh md-file-basename pandoc-toc-settings
@@ -14,7 +14,7 @@ if [ $1 ]; then
     iih=$1-md4pdf-iih.tex
     bn0=${1//_/\\_} # (escaping any underscores in filename for passing to TeX)
     bn1=${bn0//#/\\#} # (escaping any hashes in filename for passing to TeX)
-    echo " \renewcommand\contentsname{$bn1} " > $iih
+    echo " \renewcommand\contentsname{$bn1} " > $iih # initiates the iih file
     echo " \cfoot{ {\textcolor{lightgray}{$bn1}} \quad p.\thepage\ of \pageref{LastPage}} " >> $iih
 
     echo "running pandoc on $1.md" # (try to) Pandoc
