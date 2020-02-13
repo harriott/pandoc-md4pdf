@@ -23,4 +23,4 @@ if (test-path "$mdf") {
     Write-Host " ain't there" -foregroundcolor red -backgroundcolor white
 }
 
-ri tex2pdf.????* # remove trailing work folders
+ri -recurse tex2pdf.????* # remove trailing work folders

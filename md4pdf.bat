@@ -5,6 +5,7 @@ rem Convert markdown file to pdf nicely.
 rem Put this script in your path (eg C:\Users\jo\AppData\Local\Pandoc),
 rem and call it from the markdown file's directory thus: md4pdf basename.
 rem ---------------------------------------------------------------------
+rem DEPRECATED
 
 setlocal & rem all variables now local
 
