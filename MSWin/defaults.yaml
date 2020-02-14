@@ -1,0 +1,6 @@
+
+# symlink this file as  C:\Users\jnbh\AppData\Roaming\Pandoc\defaults\md4pdfMSWin.yaml
+
+# system-specific pointer to the generic include-in-header file
+include-in-header: [ D:\Dropbox\JH\IT_stack\onGitHub\md4pdf\md4pdf.tex ]
+

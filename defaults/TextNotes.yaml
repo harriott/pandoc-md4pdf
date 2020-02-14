@@ -1,6 +1,0 @@
-# system-independent Pandoc configuration for my Text Notes
-# ---------------------------------------------------------
-
-# pointer to the file-specific include-in-header file
-include-in-header: [ md4pdf-iih.tex ]
-

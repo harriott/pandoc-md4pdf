@@ -1,0 +1,4 @@
+---
+# metadata start: vim modeline
+# ----------------------------
+# vim: set fdm=expr ft=pandoc:
