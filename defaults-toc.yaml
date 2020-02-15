@@ -1,0 +1,7 @@
+
+# system-independent Pandoc configuration for my Text Notes
+# ---------------------------------------------------------
+# symlink this file as  defaults/md4pdfToC.yaml
+
+table-of-contents: true
+toc-depth: 5

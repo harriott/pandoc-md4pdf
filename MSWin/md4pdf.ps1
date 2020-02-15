@@ -4,8 +4,7 @@
 # ----------------------------------------------
 # Call this from a wrapper: md4pdf.ps1 md-file-basename [pandoc-toc-settings]
 
-param( [string]$mdbn=$(throw "$PSCommandPath requires an md file basename"),
-  [string]$param1, [string]$param2 )
+param( [string]$mdbn=$(throw "$PSCommandPath requires an md file basename"), [string]$ToC )
 
 $mdf="$mdbn.md"
 if (test-path "$mdf") {
@@ -24,19 +23,21 @@ if (test-path "$mdf") {
   get-content $mdf | select -Skip 1 | set-content md4pdfBare
   # re-add  vim modeline  within a yaml metadata block
   $agnostic = Split-Path $PSScriptRoot -parent
-  get-content "$agnostic\metadata-vim.yaml", "$PSScriptRoot\metadata.yaml", "$agnostic\metadata.yaml", md4pdfBare | Set-Content md4pdf.md
+  if ($ToC) {
+    $dToC="-dmd4pdfToC"
+    $sl="$agnostic\separatorLine.md"
+    }
+  get-content "$agnostic\metadata-vim.yaml", "$PSScriptRoot\metadata.yaml", "$agnostic\metadata.yaml", $sl, md4pdfBare | Set-Content md4pdf.md
   # cleanup
   ri md4pdfBare
 
   # (try to) Pandoc
   # ---------------
   $debugLog="--verbose > md4pdfLog.tex" # option for debugging
-  # $Command = "pandoc -f markdown+yaml_metadata_block -dmd4pdfMSWin -dmd4pdf -V CJKmainfont='Noto Sans CJK SC Regular' $param1 $param2 md4pdf.md -o $mdbn.pdf --pdf-engine=xelatex $debugLog"
-  $Command = "pandoc -dmd4pdfMSWin -dmd4pdf -V CJKmainfont='Noto Sans CJK SC Regular' $param1 $param2 md4pdf.md -o $mdbn.pdf --pdf-engine=xelatex $debugLog"
+  $Command = "pandoc -dmd4pdfMSWin -dmd4pdf $dToC md4pdf.md -o $mdbn.pdf --pdf-engine=xelatex $debugLog"
   $Command
   iex $Command
-  ri md4pdf-iih.tex # tidy up, anyway
-  # occasionally the temporary  tex2pdf.*  folders don't get cleared, due to Dropbox I suppose...
+  # ri md4pdf-iih.tex # tidy up, anyway (comment out if debugging)
 
 }else{
   # write failure message:

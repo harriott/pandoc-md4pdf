@@ -5,9 +5,6 @@
 # pointer to the locally generated file-specific include-in-header file
 include-in-header: [ md4pdf-iih.tex ]
 
-# if not specified, defaults to  article
-# documentclass: memoir
-
-# fonts
-# mainfont: Arial
-
+# input-file: md4pdf.md
+# template: md4pdf
+template: defaultCopy

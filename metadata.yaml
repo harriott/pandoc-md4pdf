@@ -3,4 +3,6 @@
 # --------------------------------
 
 # fonts
+CJKmainfont: Noto Sans CJK SC Regular
+CJKoptions: AutoFakeBold
 ---

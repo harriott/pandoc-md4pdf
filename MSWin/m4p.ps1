@@ -6,17 +6,16 @@
 #
 # Eg:  m4p -m mdbasename -n -v fontsize:10pt
 
-param( [string]$md=$(throw "$PSCommandPath requires an md file"), [switch]$noToC, [string]$variable)
+param( [string]$md=$(throw "$PSCommandPath requires an md file"), [switch]$noToC)
 
 $mdfbn=$md -replace '\.md$','' # get md file basename
 $mdf=$mdfbn + ".md"
 if (test-path "$mdf") {
-    # set the Pandoc ToC switches (the default case) if no 2nd argument was given:
-    if (!$noToC) {$ToC=" --toc --toc-depth=5"}
-    if ($variable) {$var=" --variable=$variable"}
+    if (!$noToC) { $ToC=1 } # if we want Table of Contents
 
     "running pandoc on $mdf"
-    PowerShell -NoProfile "$PSScriptRoot\md4pdf.ps1 $mdfbn$ToC$var"
+    $Command = "$PSScriptRoot\md4pdf.ps1 $mdfbn $ToC"
+    PowerShell -NoProfile $command
 }else{
     Write-Host "$PSCommandPath : file " -foregroundcolor red -backgroundcolor white -nonewline;
     Write-Host "$mdf" -foregroundcolor red -backgroundcolor yellow -nonewline;
