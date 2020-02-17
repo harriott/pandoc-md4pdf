@@ -2,7 +2,15 @@
 # metadata end: general stuff here
 # --------------------------------
 
+geometry:
+    - a4paper
+    - hmargin=1cm
+    - top=1cm
+    - bottom=17mm # page numbers print to Epson Stylus DX7400
+
 # fonts
 CJKmainfont: Noto Sans CJK SC Regular
 CJKoptions: AutoFakeBold
+fontsize: 12pt
+
 ---

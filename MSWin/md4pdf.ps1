@@ -1,4 +1,4 @@
-# vim: set et tw=0:
+# vim: set et fdl=2 tw=0:
 # Joseph Harriott   Thu 13 Feb 2020
 # Engine to convert markdown file to pdf nicely.
 # ----------------------------------------------
@@ -11,22 +11,25 @@ if (test-path "$mdf") {
 
   # Generate the specific include-in-header file
   # --------------------------------------------
-  # prepare the filename for feeding safely to TeX
+  # prepare the filename for feeding safely into TeX
   $texbn=$mdbn.replace('\','/').replace('_','\_').replace('#','\#')
   # create contents header and file footer, and store it to a file
   $iihLines="\renewcommand\contentsname{\normalsize $texbn}`r`n\cfoot{ {\textcolor{lightgray}{$texbn}} \quad p.\thepage\ of \pageref{LastPage}}"
   [IO.File]::WriteAllLines('md4pdf-iih.tex', $iihLines)
+
+  # prepare some variables
+  # ----------------------
+  $agnostic = Split-Path $PSScriptRoot -parent
+  if ($ToC) {
+    $dToC="-d md4pdfToC"
+    $sl="$agnostic\separatorLine.md"
+    }
 
   # prepare the md file for conversion
   # ----------------------------------
   # start without  vim modeline
   get-content $mdf | select -Skip 1 | set-content md4pdfBare
   # re-add  vim modeline  within a yaml metadata block
-  $agnostic = Split-Path $PSScriptRoot -parent
-  if ($ToC) {
-    $dToC="-dmd4pdfToC"
-    $sl="$agnostic\separatorLine.md"
-    }
   get-content "$agnostic\metadata-vim.yaml", "$PSScriptRoot\metadata.yaml", "$agnostic\metadata.yaml", $sl, md4pdfBare | Set-Content md4pdf.md
   # cleanup
   ri md4pdfBare
@@ -34,7 +37,7 @@ if (test-path "$mdf") {
   # (try to) Pandoc
   # ---------------
   $debugLog="--verbose > md4pdfLog.tex" # option for debugging
-  $Command = "pandoc -dmd4pdfMSWin -dmd4pdf $dToC md4pdf.md -o $mdbn.pdf --pdf-engine=xelatex $debugLog"
+  $Command = "pandoc -d md4pdfMSWin -d md4pdf $dToC md4pdf.md -o $mdbn.pdf $debugLog"
   $Command
   iex $Command
   # ri md4pdf-iih.tex # tidy up, anyway (comment out if debugging)
