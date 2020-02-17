@@ -1,4 +1,4 @@
-# vim: set et fdl=2 tw=0:
+# vim: set et fdl=2:
 # Joseph Harriott   Thu 13 Feb 2020
 # Engine to convert markdown file to pdf nicely.
 # ----------------------------------------------
@@ -27,20 +27,24 @@ if (test-path "$mdf") {
 
   # prepare the md file for conversion
   # ----------------------------------
-  # start without  vim modeline
-  get-content $mdf | select -Skip 1 | set-content md4pdfBare
-  # re-add  vim modeline  within a yaml metadata block
-  get-content "$agnostic\metadata-vim.yaml", "$PSScriptRoot\metadata.yaml", "$agnostic\metadata.yaml", $sl, md4pdfBare | Set-Content md4pdf.md
-  # cleanup
-  ri md4pdfBare
+  $mdContent = get-content $mdf
+  # prepare a yaml metadata block, and possibly a contents-separating line
+  $BeforeContent = get-content "$agnostic\metadata-vim.yaml", "$PSScriptRoot\metadata.yaml", "$agnostic\metadata.yaml", $sl
+  # write the  pandoc markdown  file that will be used for conversion, without the original  vim modeline
+  $BeforeContent, $mdContent[1..$mdContent.count] | Set-Content md4pdf.md
+  # minor warning
+  if ($mdContent -match '^######') {Write-Host "attempted sixth-level heading" -foreground 'DarkCyan'}
 
   # (try to) Pandoc
   # ---------------
-  $debugLog="--verbose > md4pdfLog.tex" # option for debugging
+  # $debugLog="--verbose > md4pdfLog.tex" # option for debugging
   $Command = "pandoc -d md4pdfMSWin -d md4pdf $dToC md4pdf.md -o $mdbn.pdf $debugLog"
-  $Command
   iex $Command
-  # ri md4pdf-iih.tex # tidy up, anyway (comment out if debugging)
+
+  # tidy up
+  # -------
+  ri md4pdf-iih.tex # comment out if debugging
+  ri md4pdf.md
 
 }else{
   # write failure message:
