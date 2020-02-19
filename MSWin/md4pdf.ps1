@@ -12,7 +12,7 @@ if (test-path "$mdf") {
   # Generate the specific include-in-header file
   # --------------------------------------------
   # prepare the filename for feeding safely into TeX
-  $texbn=$mdbn.replace('\','/').replace('_','\_').replace('#','\#')
+  $texbn=$mdbn.replace('D:\Dropbox\JH\Now\TextNotes\','').replace('\','/').replace('_','\_').replace('#','\#')
   # create contents header and file footer, and store it to a file
   $iihLines="\renewcommand\contentsname{\normalsize $texbn}`r`n\cfoot{ {\textcolor{lightgray}{$texbn}} \quad p.\thepage\ of \pageref{LastPage}}"
   [IO.File]::WriteAllLines('md4pdf-iih.tex', $iihLines)
@@ -37,13 +37,18 @@ if (test-path "$mdf") {
 
   # (try to) Pandoc
   # ---------------
-  # $debugLog="--verbose > md4pdfLog.tex" # option for debugging
-  $Command = "pandoc -d md4pdfMSWin -d md4pdf $dToC md4pdf.md -o $mdbn.pdf $debugLog"
+  $debugLog="--verbose > md4pdfLog.tex" # option for debugging
+  $Command = "pandoc -d md4pdfMSWin -d md4pdf $dToC -o $mdbn.pdf $debugLog"
   iex $Command
 
   # tidy up
   # -------
-  ri md4pdf-iih.tex # comment out if debugging
+  if( $? ) {
+    mi md4pdfLog.tex "$mdbn-md4pdfLog.tex" -force
+  } else {
+    ri md4pdfLog.tex
+  }
+  ri md4pdf-iih.tex -erroraction 'silentlycontinue'
   ri md4pdf.md
 
 }else{

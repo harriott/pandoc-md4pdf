@@ -2,11 +2,14 @@
 # ---------------------------------------------------------
 # symlink this file as  defaults/md4pdf.yaml
 
+# from: markdown-raw_tex
+
 # pointer to the locally generated file-specific include-in-header file
 include-in-header: [ md4pdf-iih.tex ]
 
+# the locally prepared pandoc markdown file
+input-file: md4pdf.md
+
 pdf-engine: xelatex
 
-# input-file: md4pdf.md
-# template: md4pdf
-# template: defaultCopy
+template: default-jh-comments2

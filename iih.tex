@@ -3,10 +3,11 @@
 % Joseph Harriott  Mon 17 Feb 2020
 % my generic include-in-header file
 % ---------------------------------
+% this should be called from a system-specific  defaults.yaml
 
 \usepackage{fancyhdr,lastpage}
 \pagestyle{fancy} \fancyhead{} \renewcommand{\headrulewidth}{0pt}
-\usepackage[dvipsnames]{xcolor}
+\usepackage[dvipsnames]{xcolor} % conflicts with the default.latex
 
 \usepackage{eurosym}
 

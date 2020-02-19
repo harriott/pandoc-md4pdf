@@ -41,3 +41,8 @@ foreach{
 
 ri tex2pdf.???* # remove trailing work folders (sometimes without success, due to Dropbox, I suppose)
 
+# highlight any conversion failures
+[System.Console]::ForegroundColor = 'Cyan'
+gci -r "*-md4pdfLog.tex" | %{echo $_.fullname}
+[System.Console]::ResetColor()
+
