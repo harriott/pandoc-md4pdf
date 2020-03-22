@@ -1,10 +1,8 @@
 # vim: set et tw=0:
 
-# Joseph Harriott http://momentary.eu/  Mon 15 Oct 2018
+# Joseph Harriott  Feb 2020
 # Convert a single markdown file to pdf nicely.
-# -----------------------------------------------------
-#
-# Eg:  m4p -m mdbasename -n -v fontsize:10pt
+# ---------------------------------------------
 
 param( [string]$md=$(throw "$PSCommandPath requires an md file"), [switch]$noToC)
 

@@ -1,28 +1,12 @@
 md4pdf
 ======
 
-For markdown files containing up to four level of heading, here are three small resources for smoother conversion to pdf using Pandoc calling XeLaTeX.
+For `markdown` files containing up to five level of heading, here are three small resources for smoother conversion to pdf using `Pandoc` calling `XeLaTeX`.
+
+The first line of the markdown file is assumed to be a `vim` modeline, and is stripped out before the conversion.
 
 ### Requirements
-Windows 7 at least, with LaTeX, Pandoc and SumatraPDF installed.
+`Windows 10`: `LaTeX`, `Pandoc` and a `pdf` viewer that doesn't lock the `pdf` file, such as `SumatraPDF`.
 
-### Vim modeline
-If you want it to be hidden in the pdf, then do something like this:
-```markdown
----
-[//]: # ( vim: set fdm=expr:)
-
-Does the cartography workshop where Christopher Columbus lived in Lisbon still exist?
-```
-(- which I use with my [vimfiles\ftplugin\markdown.vim](https://github.com/harriott/vimfiles/blob/master/ftplugin/markdown.vim)).
-
----
-## titles.tex
-A LaTeX pre-configuration file for Pandoc, included by way of explanation of the 4th-level markdown heading snag that I have resolved here by pushing headings up a LaTeX level, and tidying up the top one (now Chapter).
-
-## md4pdf.bat
-Windows Batch file for converting a markdown file to pdf, using the pre-formatting gathered in `titles.tex` and with the file's basename fed through as the replacement for the "Contents" header in the pdf's table of contents.
-
-## md4pdf.ps1
-PowerShell Script for recursively converting all as yet unconverted or recently changed markdown files in a directory, as per `md4pdf.bat`.
+The `bash` version assumes that an environment variable `$MD4PDF` has been set to the the path of this file's directory.
 

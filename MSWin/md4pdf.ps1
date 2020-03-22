@@ -12,9 +12,11 @@ if (test-path "$mdf") {
   # Generate the specific include-in-header file
   # --------------------------------------------
   # prepare the filename for feeding safely into TeX
-  $texbn=$mdbn.replace('D:\Dropbox\JH\Now\TextNotes\','').replace('\','/').replace('_','\_').replace('#','\#')
-  # create contents header and file footer, and store it to a file
-  $iihLines="\renewcommand\contentsname{\normalsize $texbn}`r`n\cfoot{ {\textcolor{lightgray}{$texbn}} \quad p.\thepage\ of \pageref{LastPage}}"
+  if ($mdbn.length -le 77) { $shortbn=$mdbn }
+  else { $shortbn=$mdbn.substring($mdbn.length-77,77) }
+  $showbn=$shortbn.replace('\','/').replace('_','\_').replace('#','\#')
+  # create contents header and file footer, and store it to a file which will be called from the generic defaults yaml
+  $iihLines="\renewcommand\contentsname{\normalsize $showbn}`r`n\cfoot{ {\textcolor{lightgray}{$showbn}} \quad p.\thepage\ of \pageref{LastPage}}"
   [IO.File]::WriteAllLines('md4pdf-iih.tex', $iihLines)
 
   # prepare some variables
@@ -23,14 +25,31 @@ if (test-path "$mdf") {
   if ($ToC) {
     $dToC="-d md4pdfToC"
     $sl="$agnostic\separatorLine.md"
+    $BeforeContent = get-content $sl
     }
+
+  # first, assume using strict markdown, prepare Pandoc variables
+  # -------------------------------------------------------------
+  $from = "-f markdown_strict"
+  $papersize = "-V papersize:A4"
+  $hmargins = "-V geometry:hmargin=1cm"
+  $vmargins = "-V geometry:vmargin='{1cm,2cm}'"
+  $fontsize = "-V fontsize=12pt" # for full-page readability in a smartphone
+  $mainfont = "-V mainfont=Arial"
+  $CJKmainfont = "-V CJKmainfont='Noto Sans CJK SC Regular'"
+  $CJKoptions = "-V CJKoptions=AutoFakeBold"
+  $strict = "$from $papersize $hmargins $vmargins $fontsize $mainfont $CJKmainfont $CJKoptions"
 
   # prepare the md file for conversion
   # ----------------------------------
+  # if wanting to use Pandoc's highly sensitive version of Markdown, uncomment the next two lines of code
+    # prepare a yaml metadata block, and possibly a contents-separating line
+    # $BeforeContent = get-content "$agnostic\metadata-vim.yaml", "$PSScriptRoot\metadata.yaml", "$agnostic\metadata.yaml", $sl
+    # and switch off strict
+    # $strict = ""
+  # get the original markdown into an array
   $mdContent = get-content $mdf
-  # prepare a yaml metadata block, and possibly a contents-separating line
-  $BeforeContent = get-content "$agnostic\metadata-vim.yaml", "$PSScriptRoot\metadata.yaml", "$agnostic\metadata.yaml", $sl
-  # write the  pandoc markdown  file that will be used for conversion, without the original  vim modeline
+  # write the  markdown  file that will be used for conversion, without the original  vim modeline
   $BeforeContent, $mdContent[1..$mdContent.count] | Set-Content md4pdf.md
   # minor warning
   if ($mdContent -match '^######') {Write-Host "attempted sixth-level heading" -foreground 'DarkCyan'}
@@ -38,15 +57,17 @@ if (test-path "$mdf") {
   # (try to) Pandoc
   # ---------------
   $debugLog="--verbose > md4pdfLog.tex" # option for debugging
-  $Command = "pandoc -d md4pdfMSWin -d md4pdf $dToC -o $mdbn.pdf $debugLog"
+  $Command = "pandoc $strict -d md4pdfMSWin -d md4pdf $dToC -o $mdbn.pdf $debugLog"
   iex $Command
+  $execSuccess=$?
+  # $execSuccess=$false # uncomment for debugging
 
   # tidy up
   # -------
-  if( $? ) {
-    mi md4pdfLog.tex "$mdbn-md4pdfLog.tex" -force
+  if( $execSuccess ) {
+    ri md4pdfLog.tex -erroraction 'silentlycontinue'
   } else {
-    ri md4pdfLog.tex
+    mi md4pdfLog.tex "$mdbn-md4pdfLog.tex" -force -erroraction 'silentlycontinue'
   }
   ri md4pdf-iih.tex -erroraction 'silentlycontinue'
   ri md4pdf.md
