@@ -1,9 +1,11 @@
 % vim: set fdl=2:
 
 % Joseph Harriott  Mon 17 Feb 2020
-% my generic include-in-header file
-% ---------------------------------
+
+% my generic include-in-header file - for heading styles
+% ------------------------------------------------------
 % this should be called from a system-specific  defaults.yaml
+%  (putting this in  data-dir  doesn't work)
 
 \usepackage{fancyhdr,lastpage}
 \pagestyle{fancy} \fancyhead{} \renewcommand{\headrulewidth}{0pt}
@@ -16,17 +18,7 @@
 % (using  titlesec  means we can't use memoir)
 \usepackage[compact]{titlesec}
 
-\titleformat{\section}
-  {\normalfont      \huge\bfseries\color{BurntOrange}}{\thesection}      {1em}{} % ( Huge = huge at 12pt )
-\titleformat{\subsection}
-  {\normalfont     \LARGE\bfseries\color{Goldenrod}}  {\thesubsection}   {1em}{}
-\titleformat{\subsubsection}
-  {\normalfont     \Large\bfseries\color{SpringGreen}}{\thesubsubsection}{1em}{}
-% the following also remove  runin:
-\titleformat{\paragraph}
-  {\normalfont     \large\bfseries\color{SkyBlue}}    {\theparagraph}    {1em}{}
-\titleformat{\subparagraph}
-  {\normalfont\normalsize\bfseries\color{SkyBlue}}    {\thesubparagraph} {1em}{}
+\usepackage{headings} % heading text styles
 
 \titlespacing*{\section}       {0pt}{1ex plus 1ex minus .2ex}{0pt}
 \titlespacing*{\subsection}    {0pt}{1ex plus 1ex minus .2ex}{0pt}

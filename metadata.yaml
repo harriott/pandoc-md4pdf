@@ -1,6 +1,7 @@
 
 # metadata end: general stuff here
 # --------------------------------
+# for use only with Pandoc's highly sensitive version of Markdown
 
 geometry:
     - a4paper

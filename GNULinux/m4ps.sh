@@ -20,11 +20,11 @@ absm4p="$( dirname "${BASH_SOURCE[0]}" )/m4p.sh"
 
 mdfiles=$(find . -name '*.md')
 for mdfile in $mdfiles; do
-  mdf=${mdfile%.*}
-  # ls -l $mdf.pdf $mdf.md
-  if ( [ $1 ] && [ $1 != 0 ] ) || [ $mdf.pdf -ot $mdf.md ]; then
-    # [ $mdf.pdf -ot $mdf.md ] && ls -l $mdf.pdf $mdf.md >> BASH-older.txt
-    bash $absm4p $mdf $2
-  fi
+    mdf=${mdfile%.*}
+    # ls -l $mdf.pdf $mdf.md
+    if ( [ $1 ] && [ $1 != 0 ] ) || [ $mdf.pdf -ot $mdf.md ]; then
+        # [ $mdf.pdf -ot $mdf.md ] && ls -l $mdf.pdf $mdf.md >> BASH-older.txt
+        bash $absm4p $mdf $2
+    fi
 done
 

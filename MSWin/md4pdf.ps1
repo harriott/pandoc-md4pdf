@@ -69,7 +69,7 @@ if (test-path "$mdf") {
   } else {
     mi md4pdfLog.tex "$mdbn-md4pdfLog.tex" -force -erroraction 'silentlycontinue'
   }
-  ri md4pdf-iih.tex -erroraction 'silentlycontinue'
+  ri md4pdf-iih0.tex -erroraction 'silentlycontinue'
   ri md4pdf.md
 
 }else{

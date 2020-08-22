@@ -1,0 +1,8 @@
+
+# symlink this file as  ~/.pandoc/defaults/md4pdf-iih.yaml
+
+# System-specific pointer to the generic include-in-header file.
+#   (Can't incorporate environment variables...)
+include-in-header: [ /mnt/SDSSDA240G/Dropbox/JH/IT_stack/onGitHub/md4pdf/iih.tex ]
+
+# deprecated - easier to use  -H
