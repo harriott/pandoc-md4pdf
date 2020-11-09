@@ -68,7 +68,7 @@ if [ $1 ]; then
     # highlight headings that are too deep
     grep "^$headingtoodeep " md4pdf.md
 
-    # vo=" > stdout.tex" # option previously used for debugging (see my issue #6628)
+    # vo=" > $1-stdout.tex" # option previously used for debugging (see my issue #6628)
     # verbose="--verbose$vo" # for debugging
     se=$1-stderr.txt
     Command="(pandoc $strict -H $MD4PDF/iih/iih.tex -d md4pdf $dToC -o $1.pdf $verbose) 2>&1 | tee $se"

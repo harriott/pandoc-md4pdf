@@ -23,7 +23,7 @@ if (test-path "$mdf") {
   # ----------------------
   $agnostic = Split-Path $PSScriptRoot -parent
   if ($ToC) {
-    $dToC="-d md4pdfToC"
+    $dToC = "-d md4pdfToC"  #  -d md4pdfToC  invokess  $MD4PDF/defaults-toc.yaml
     $sl="$agnostic\separatorLine.md"
     $BeforeContent = get-content $sl
     }
@@ -56,8 +56,10 @@ if (test-path "$mdf") {
 
   # (try to) Pandoc
   # ---------------
-  $debugLog="--verbose > md4pdfLog.tex" # option for debugging
-  $Command = "pandoc $strict -d md4pdfMSWin -d md4pdf $dToC -o $mdbn.pdf $debugLog"
+  # $vo = "--verbose > $1-stdout.tex" # option previously used for debugging (see my issue #6628)
+  # $verbose = "--verbose$vo" # for debugging
+  $Command = "pandoc $strict -H $agnostic\iih\iih.tex -d md4pdf $dToC -o $mdbn.pdf $verbose"
+    #  -d md4pdf  invokess  $MD4PDF\defaults.yaml
   iex $Command
   $execSuccess=$?
   # $execSuccess=$false # uncomment for debugging
@@ -69,7 +71,7 @@ if (test-path "$mdf") {
   } else {
     mi md4pdfLog.tex "$mdbn-md4pdfLog.tex" -force -erroraction 'silentlycontinue'
   }
-  ri md4pdf-iih0.tex -erroraction 'silentlycontinue'
+  ri md4pdf-iih.tex -erroraction 'silentlycontinue'
   ri md4pdf.md
 
 }else{
