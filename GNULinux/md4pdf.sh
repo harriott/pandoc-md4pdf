@@ -52,14 +52,13 @@ if [ $1 ]; then
 
   # prepare the md file for conversion
   # ----------------------------------
-  # ( assuming 1st line of original markdown file is a vim modeline )
   if [ $2 ]; then
     dToC="-d md4pdfToC"
     #  -d md4pdfToC  invokess  $MD4PDF/defaults-toc.yaml
     cp "$MD4PDF/separatorLine.md" md4pdf.md
-    sed '1d' "$1.md" >> md4pdf.md
+    cat "$1.md" >> md4pdf.md
   else
-    sed '1d' "$1.md" > md4pdf.md
+    cat "$1.md" > md4pdf.md
   fi
 
   # (try to) Pandoc
@@ -72,7 +71,7 @@ if [ $1 ]; then
     # verbose="--verbose$vo" # for debugging
     se=$1-stderr.txt
     Command="(pandoc $strict -H $MD4PDF/iih/iih.tex -d md4pdf $dToC -o $1.pdf $verbose) 2>&1 | tee $se"
-    #  -d md4pdf  invokess  $MD4PDF/defaults.yaml
+    #  -d md4pdf  invokes  $MD4PDF/defaults.yaml
 
     eval $Command
     [[ -f $se ]] && { [[ -s $se ]] || rm $se; } # removes it if it's empty

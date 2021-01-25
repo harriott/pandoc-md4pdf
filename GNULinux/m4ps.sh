@@ -18,7 +18,11 @@ absm4p="$( dirname "${BASH_SOURCE[0]}" )/m4p.sh"
 # echo "PDF's marked as older by BASH -ot" > BASH-older.txt
 # echo "due to Dropbox seemingly resetting the modified date of md's on download" >> BASH-older.txt
 
-read -p "About to recursively create a load of PDFs from markdowns ${tpf5b} - are you in the right parent directory?${tpfn} " sure
+if ( [ $1 ] && [ $1 = 0 ] ); then
+    sure='y'
+else
+    read -p "About to recursively create a load of PDFs from markdowns ${tpf5b} - are you in the right parent directory?${tpfn} " sure
+fi
 
 if [ $sure ]; then
     if [ $sure = "y" ]; then
