@@ -1,5 +1,5 @@
 #!/bin/bash
-# vim: set et sw=2 tw=0:
+# vim: set sw=2:
 
 # Joseph Harriott - Mon 15 Jun 2020
 
@@ -56,9 +56,9 @@ if [ $1 ]; then
     dToC="-d md4pdfToC"
     #  -d md4pdfToC  invokess  $MD4PDF/defaults-toc.yaml
     cp "$MD4PDF/separatorLine.md" md4pdf.md
-    cat "$1.md" >> md4pdf.md
+    sed -n '2,$p' "$1.md" >> md4pdf.md
   else
-    cat "$1.md" > md4pdf.md
+    sed -n '2,$p' "$1.md" > md4pdf.md
   fi
 
   # (try to) Pandoc
