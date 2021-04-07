@@ -1,7 +1,6 @@
 #!/bin/bash
-# vim: set tw=0
 
-# Joseph Harriott  Mon 09 Nov 2020
+# Joseph Harriott  Mon 05 Apr 2021
 # Recursively find all *.md files in the current directory,
 # convert those that haven't been done yet or have changed since last converted to pdf.
 # Use LaTeX Chapter as the first level heading, and Subsubsection as the 5th
@@ -19,7 +18,7 @@ absm4p="$( dirname "${BASH_SOURCE[0]}" )/m4p.sh"
 # echo "due to Dropbox seemingly resetting the modified date of md's on download" >> BASH-older.txt
 
 if ( [ $1 ] && [ $1 = 0 ] ); then
-    sure='y'
+    sure='y' # first argument was 0, so we're sure
 else
     read -p "About to recursively create a load of PDFs from markdowns ${tpf5b} - are you in the right parent directory?${tpfn} " sure
 fi

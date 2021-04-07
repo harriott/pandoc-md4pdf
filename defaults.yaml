@@ -12,5 +12,6 @@ input-file: md4pdf.md
 
 pdf-engine: xelatex
 
+# select  $onGH\pandoc-templates\default-jh-3.latex
 template: default-jh-3
 

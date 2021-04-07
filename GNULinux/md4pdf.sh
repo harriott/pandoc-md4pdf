@@ -1,7 +1,7 @@
 #!/bin/bash
 # vim: set sw=2:
 
-# Joseph Harriott - Mon 15 Jun 2020
+# Joseph Harriott - June 2020
 
 # Engine to convert markdown file to pdf nicely.
 # -----------------------------------------------------

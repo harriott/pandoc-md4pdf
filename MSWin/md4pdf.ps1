@@ -1,10 +1,13 @@
-# vim: set et fdl=2:
-# Joseph Harriott   Thu 13 Feb 2020
+# vim: set fdl=2:
+
+# Joseph Harriott   Wed 07 Apr 2021
+
 # Engine to convert markdown file to pdf nicely.
 # ----------------------------------------------
 # Call this from a wrapper: md4pdf.ps1 md-file-basename [pandoc-toc-settings]
 
-param( [string]$mdbn=$(throw "$PSCommandPath requires an md file basename"), [string]$ToC )
+# param( [string]$mdbn=$(throw "$PSCommandPath requires an md file basename"), [switch]$ToC )
+param( [string]$mdbn=$(throw "$PSCommandPath requires an md file basename"), [switch]$ToC, [switch]$debugCommand )
 
 $mdf="$mdbn.md"
 if (test-path "$mdf") {
@@ -23,7 +26,8 @@ if (test-path "$mdf") {
   # ----------------------
   $agnostic = Split-Path $PSScriptRoot -parent
   if ($ToC) {
-    $dToC = "-d md4pdfToC"  #  -d md4pdfToC  invokess  $MD4PDF/defaults-toc.yaml
+    $dToC = "-d md4pdfToC"
+      # md4pdfToC  is set in  $onGH\MSWin10\symlinks.ps1  to point at  $MD4PDF\defaults-toc.yaml
     $sl="$agnostic\separatorLine.md"
     $BeforeContent = get-content $sl
     }
@@ -40,29 +44,28 @@ if (test-path "$mdf") {
   $CJKoptions = "-V CJKoptions=AutoFakeBold"
   $strict = "$from $papersize $hmargins $vmargins $fontsize $mainfont $CJKmainfont $CJKoptions"
 
-  # prepare the md file for conversion
-  # ----------------------------------
+  # build the  md4pdf.md  file for conversion
+  # -----------------------------------------
   # if wanting to use Pandoc's highly sensitive version of Markdown, uncomment the next two lines of code
     # prepare a yaml metadata block, and possibly a contents-separating line
     # $BeforeContent = get-content "$agnostic\metadata-vim.yaml", "$PSScriptRoot\metadata.yaml", "$agnostic\metadata.yaml", $sl
     # and switch off strict
     # $strict = ""
-  # get the original markdown into an array
-  $mdContent = get-content $mdf
+  $mdContent = get-content $mdf  # gets the original markdown into an array
   # write the  markdown  file that will be used for conversion, without the original  vim modeline
   $BeforeContent, $mdContent[1..$mdContent.count] | Set-Content md4pdf.md
-  # minor warning
-  if ($mdContent -match '^######') {Write-Host "attempted sixth-level heading" -foreground 'DarkCyan'}
+  #  - this file is subsequently pointed at in the  md4pdf  yaml
+  if ($mdContent -match '^######') {Write-Host "attempted sixth-level heading" -foreground 'DarkCyan'}  # minor warning
 
   # (try to) Pandoc
   # ---------------
   # $vo = "--verbose > $1-stdout.tex" # option previously used for debugging (see my issue #6628)
-  # $verbose = "--verbose$vo" # for debugging
+  # $verbose = "--verbose$vo" # for  Pandoc  debugging
   $Command = "pandoc $strict -H $agnostic\iih\iih.tex -d md4pdf $dToC -o $mdbn.pdf $verbose"
-    #  -d md4pdf  invokess  $MD4PDF\defaults.yaml
-  iex $Command
+    # the yaml  md4pdf  is set in  $onGH\MSWin10\symlinks.ps1  to point at  $MD4PDF\defaults.yaml
+  if ($debugCommand) {$Command} else {iex $Command}
   $execSuccess=$?
-  # $execSuccess=$false # uncomment for debugging
+  # $execSuccess=$false # uncomment for  Pandoc  debugging
 
   # tidy up
   # -------
@@ -71,8 +74,10 @@ if (test-path "$mdf") {
   } else {
     mi md4pdfLog.tex "$mdbn-md4pdfLog.tex" -force -erroraction 'silentlycontinue'
   }
-  ri md4pdf-iih.tex -erroraction 'silentlycontinue'
-  ri md4pdf.md
+  if (!$debugCommand) {
+    ri md4pdf-iih.tex -erroraction 'silentlycontinue'
+    ri md4pdf.md
+  } # keeping these if debugging  $Command
 
 }else{
   # write failure message:
