@@ -13,6 +13,7 @@ if [ $1 ]; then
   # --------------------------------------------
   # this is for having the name of the document displayed
   #
+  iih=$1-md4pdf-iih.tex
   # get the cropped path name
   fullmdpathname="$PWD/$1"
   lenfmdpn=${#fullmdpathname}
@@ -20,8 +21,8 @@ if [ $1 ]; then
   cmdpn0=${croppedmdpn//_/\\_} # (escaping any underscores in filename for passing to TeX)
   cmdpn1=${cmdpn0//#/\\#} # (escaping any hashes in filename for passing to TeX)
   # store LaTeX code
-  echo " \renewcommand\contentsname{\normalsize $cmdpn1} " > md4pdf-iih.tex
-  echo " \cfoot{ {\textcolor{lightgray}{$cmdpn1}} \quad p.\thepage\ of \pageref{LastPage}} " >> md4pdf-iih.tex
+  echo " \renewcommand\contentsname{\normalsize $cmdpn1} " > $iih
+  echo " \cfoot{ {\textcolor{lightgray}{$cmdpn1}} \quad p.\thepage\ of \pageref{LastPage}} " >> $iih
 
   # first, assume using strict markdown, prepare Pandoc variables
   # -------------------------------------------------------------
@@ -52,35 +53,33 @@ if [ $1 ]; then
 
   # prepare the md file for conversion
   # ----------------------------------
+  md4pdf=$1-md4pdf.md
   if [ $2 ]; then
     dToC="-d md4pdfToC"
     #  -d md4pdfToC  invokess  $MD4PDF/defaults-toc.yaml
-    cp "$MD4PDF/separatorLine.md" md4pdf.md
-    sed -n '2,$p' "$1.md" >> md4pdf.md
+    cp "$MD4PDF/separatorLine.md" $md4pdf
+    sed -n '2,$p' "$1.md" >> $md4pdf
   else
-    sed -n '2,$p' "$1.md" > md4pdf.md
+    sed -n '2,$p' "$1.md" > $md4pdf
   fi
 
   # (try to) Pandoc
   # ---------------
     echo "running pandoc on $1.md" # (try to) Pandoc
     # highlight headings that are too deep
-    grep "^$headingtoodeep " md4pdf.md
+    grep "^$headingtoodeep " $md4pdf
 
-    # vo=" > $1-stdout.tex" # option previously used for debugging (see my issue #6628)
-    # verbose="--verbose$vo" # for debugging
     se=$1-stderr.txt
-    Command="(pandoc $strict -H $MD4PDF/iih/iih.tex -d md4pdf $dToC -o $1.pdf $verbose) 2>&1 | tee $se"
+    # verbose=--verbose
+    Command="(pandoc $md4pdf $strict -H $MD4PDF/iih/iih.tex -H $iih -d md4pdf $dToC -o $1.pdf $verbose) 2> $se"
     #  -d md4pdf  invokes  $MD4PDF/defaults.yaml
 
     eval $Command
     [[ -f $se ]] && { [[ -s $se ]] || rm $se; } # removes it if it's empty
 
-    [[ $verbose ]] && echo "verbose"
     # sed -n '/\[makePDF] Source:/{n;:a;N;/end{document}/!ba;p}' stdout.tex > md4pdf-raw.tex # for diagnosis (can xelatex directly)
 
     # Tidy up:
-    rm md4pdf.md md4pdf-iih.tex  # comment this if intending to use the the contents of $Command after this script
-    # rm stdout.tex              # option previously used (see my issue #6628)
+    rm $md4pdf $iih  # comment this if intending to use the the contents of $Command after this script
 fi
 

@@ -22,18 +22,15 @@ if ( [ $1 ] && [ $1 = 0 ] ); then
 else
     read -p "About to recursively create a load of PDFs from markdowns ${tpf5b} - are you in the right parent directory?${tpfn} " sure
 fi
+[ ! $sure ] || [ $sure != "y" ] && exit
 
-if [ $sure ]; then
-    if [ $sure = "y" ]; then
-        mdfiles=$(find . -name '*.md')
-        for mdfile in $mdfiles; do
-            mdf=${mdfile%.*}
-            # ls -l $mdf.pdf $mdf.md
-            if ( [ $1 ] && [ $1 != 0 ] ) || [ $mdf.pdf -ot $mdf.md ]; then
-                # [ $mdf.pdf -ot $mdf.md ] && ls -l $mdf.pdf $mdf.md >> BASH-older.txt
-                bash $absm4p $mdf $2
-            fi
-        done
+mdfiles=$(find . -name '*.md')
+for mdfile in $mdfiles; do
+    mdf=${mdfile%.*}
+    # ls -l $mdf.pdf $mdf.md
+    if ( [ $1 ] && [ $1 != 0 ] ) || [ $mdf.pdf -ot $mdf.md ]; then
+        # [ $mdf.pdf -ot $mdf.md ] && ls -l $mdf.pdf $mdf.md >> BASH-older.txt
+        bash $absm4p $mdf $2
     fi
-fi
+done
 
