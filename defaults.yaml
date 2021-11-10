@@ -1,9 +1,12 @@
+
 # system-independent Pandoc configuration for my Text Notes
 # ---------------------------------------------------------
-# symlink this file as  defaults/md4pdf.yaml
+# symlinked in
+#  $ARCHBUILDS/build-scripts/36-symlinks-softwares.sh
+#  $MSWin10/symlinks.ps1
 
 pdf-engine: xelatex
 
-# select  $onGH\pandoc-templates\default-jh-3.latex
+# select  $onGH/pandoc-templates/default-jh-3.latex
 template: default-jh-3
 

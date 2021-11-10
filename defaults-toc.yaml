@@ -1,8 +1,10 @@
-# vim: set fdl=1:
 
 # system-independent Pandoc configuration for my Text Notes
 # ---------------------------------------------------------
-# symlink this file as  defaults/md4pdfToC.yaml
+# symlinked in
+#  $ARCHBUILDS/build-scripts/36-symlinks-softwares.sh
+#  $MSWin10/symlinks.ps1
 
 table-of-contents: true
 toc-depth: 5
+

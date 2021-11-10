@@ -1,7 +1,7 @@
 #!/bin/bash
 # vim: set sw=2:
 
-# Joseph Harriott - June 2020
+# Joseph Harriott - Wed 10 Nov 2021
 
 # Engine to convert markdown file to pdf nicely.
 # -----------------------------------------------------
@@ -55,8 +55,7 @@ if [ $1 ]; then
   # ----------------------------------
   md4pdf=$1-md4pdf.md
   if [ $2 ]; then
-    dToC="-d md4pdfToC"
-    #  -d md4pdfToC  invokess  $MD4PDF/defaults-toc.yaml
+    dToC="-d md4pdfToC"  #  ~/.pandoc/defaults/md4pdfToC.yaml  =  $MD4PDF/defaults-toc.yaml
     cp "$MD4PDF/separatorLine.md" $md4pdf
     sed -n '2,$p' "$1.md" >> $md4pdf
   else
@@ -72,7 +71,7 @@ if [ $1 ]; then
     se=$1-stderr.txt
     # verbose=--verbose
     Command="(pandoc $md4pdf $strict -H $MD4PDF/iih/iih.tex -H $iih -d md4pdf $dToC -o $1.pdf $verbose) 2> $se"
-    #  -d md4pdf  invokes  $MD4PDF/defaults.yaml
+    #  ~/.pandoc/defaults/md4pdf.yaml  =  $MD4PDF/defaults.yaml
 
     eval $Command
     [[ -f $se ]] && { [[ -s $se ]] || rm $se; } # removes it if it's empty
