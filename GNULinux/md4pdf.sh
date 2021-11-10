@@ -71,8 +71,9 @@ if [ $1 ]; then
     se=$1-stderr.txt
     # verbose=--verbose
     Command="(pandoc $md4pdf $strict -H $MD4PDF/iih/iih.tex -H $iih -d md4pdf $dToC -o $1.pdf $verbose) 2> $se"
-    #  ~/.pandoc/defaults/md4pdf.yaml  =  $MD4PDF/defaults.yaml
+    #  ~/.pandoc/defaults/md4pdf.yaml  =  $MD4PDF/defaults.yaml  which calls the template
 
+    # echo $Command
     eval $Command
     [[ -f $se ]] && { [[ -s $se ]] || rm $se; } # removes it if it's empty
 
