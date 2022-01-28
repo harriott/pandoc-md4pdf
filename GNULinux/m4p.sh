@@ -4,6 +4,7 @@
 
 # Convert a single markdown file to pdf nicely.
 # ---------------------------------------------
+# m4p  is defined in   $Bash/bashrc-wm
 
 if [ $1 ]; then
   mdf=${1%.md}

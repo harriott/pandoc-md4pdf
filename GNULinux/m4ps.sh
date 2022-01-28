@@ -1,13 +1,17 @@
 #!/bin/bash
 
 # Joseph Harriott  Mon 05 Apr 2021
+
 # Recursively find all *.md files in the current directory,
 # convert those that haven't been done yet or have changed since last converted to pdf.
 # Use LaTeX Chapter as the first level heading, and Subsubsection as the 5th
 # (and preferably last) level heading. Apply some neater formatting.
 # -------------------------------------------------------------------------------------
+
 # If a non-zero first argument is given, all of the pdf's are re-done.
 # If a second argument is given, ToC is switched off.
+
+# m4ps0, m4ps1, mt  are defined in  $Bash/bashrc-wm
 
 # just incase this script was stopped previously
 [ -s md4pdf.md ] && rm md4pdf.md
@@ -27,7 +31,7 @@ fi
 mdfiles=$(find . -name '*.md')
 for mdfile in $mdfiles; do
     mdf=${mdfile%.*}
-    # ls -l $mdf.pdf $mdf.md
+    # ls -l $mdf.pdf $mdf.md  # for debugging
     if ( [ $1 ] && [ $1 != 0 ] ) || [ $mdf.pdf -ot $mdf.md ]; then
         # [ $mdf.pdf -ot $mdf.md ] && ls -l $mdf.pdf $mdf.md >> BASH-older.txt
         bash $absm4p $mdf $2
