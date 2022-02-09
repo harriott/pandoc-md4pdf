@@ -28,13 +28,23 @@ else
 fi
 [ ! $sure ] || [ $sure != "y" ] && exit
 
+MI=$MACHINE/jo
+if [ -d $MI ]; then
+    log=$MI/m4ps.log
+else
+    log=$HOME/m4ps.log
+fi
+[[ -f $log ]] && rm $log
 mdfiles=$(find . -name '*.md')
 for mdfile in $mdfiles; do
     mdf=${mdfile%.*}
-    # ls -l $mdf.pdf $mdf.md  # for debugging
+    if true; then
+        ls -l $mdf.md >> $log
+        [ -f $mdf.pdf ] && ls -l $mdf.pdf >> $log
+    fi  # progress
     if ( [ $1 ] && [ $1 != 0 ] ) || [ $mdf.pdf -ot $mdf.md ]; then
-        # [ $mdf.pdf -ot $mdf.md ] && ls -l $mdf.pdf $mdf.md >> BASH-older.txt
-        bash $absm4p $mdf $2
+        bash $absm4p $mdf $2  # the conversion
+        echo "running pandoc on $mdf.md" >> $log
     fi
 done
 

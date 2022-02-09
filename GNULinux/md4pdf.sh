@@ -5,7 +5,7 @@
 
 # Engine to convert markdown file to pdf nicely.
 # -----------------------------------------------------
-# Call this from a wrapper: md4pdf.sh <md-file-basename> <flag for ToC>
+# Call this from a wrapper: md4pdf.sh <md-file-basename> <flag_for_ToC>
 
 if [ $1 ]; then
 
