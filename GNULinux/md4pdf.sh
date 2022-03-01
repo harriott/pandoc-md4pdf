@@ -32,9 +32,11 @@ if [ $1 ]; then
   #
   mainfont=(
     "-V mainfont=Arimo" \
+    "-V mainfont='Arimo Regular Nerd Font Complete'" \
     "-V mainfont=DejaVuSerif" \
     "-V mainfont='Liberation Sans'" \
     "-V mainfont='Open Sans'" \
+    "-V mainfont='Ubuntu Nerd Font Complete'" \
   )
   fontsize=(
     "-V fontsize=12pt" \
@@ -42,6 +44,7 @@ if [ $1 ]; then
     '' \
     '' \
   )
+  m4pfont=1
   # 12pt allows full-page readability in a smartphone
   #
   monofont="-V monofont='Ubuntu Mono'" # positioning gets messed up if the page isn't wide enough
@@ -64,7 +67,7 @@ if [ $1 ]; then
 
   # (try to) Pandoc
   # ---------------
-    echo "running pandoc on $1.md" # (try to) Pandoc
+    echo "running Pandoc on $1.md" # (try to) Pandoc
     # highlight headings that are too deep
     grep "^$headingtoodeep " $md4pdf
 

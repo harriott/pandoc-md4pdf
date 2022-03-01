@@ -1,6 +1,6 @@
 #!/bin/bash
 
-# Joseph Harriott  Mon 05 Apr 2021
+# Joseph Harriott  Sun 13 Feb 2022
 
 # Recursively find all *.md files in the current directory,
 # convert those that haven't been done yet or have changed since last converted to pdf.
@@ -16,10 +16,7 @@
 # just incase this script was stopped previously
 [ -s md4pdf.md ] && rm md4pdf.md
 
-absm4p="$( dirname "${BASH_SOURCE[0]}" )/m4p.sh"
-
-# echo "PDF's marked as older by BASH -ot" > BASH-older.txt
-# echo "due to Dropbox seemingly resetting the modified date of md's on download" >> BASH-older.txt
+absm4p="$( dirname "${BASH_SOURCE[0]}" )/m4p.sh"  # $MD4PDF/GNULinux/md4pdf.sh
 
 if ( [ $1 ] && [ $1 = 0 ] ); then
     sure='y' # first argument was 0, so we're sure
@@ -35,16 +32,19 @@ else
     log=$HOME/m4ps.log
 fi
 [[ -f $log ]] && rm $log
-mdfiles=$(find . -name '*.md')
-for mdfile in $mdfiles; do
+shopt -s globstar
+for mdfile in **/*.md; do
     mdf=${mdfile%.*}
-    if true; then
-        ls -l $mdf.md >> $log
-        [ -f $mdf.pdf ] && ls -l $mdf.pdf >> $log
-    fi  # progress
-    if ( [ $1 ] && [ $1 != 0 ] ) || [ $mdf.pdf -ot $mdf.md ]; then
-        bash $absm4p $mdf $2  # the conversion
-        echo "running pandoc on $mdf.md" >> $log
+    if [[ ! $mdf =~ " " ]]; then
+        # record progress
+            ls -l $mdf.md >> $log
+            [ -f $mdf.pdf ] && ls -l $mdf.pdf >> $log
+        if ( [ $1 ] && [ $1 != 0 ] ) || [ $mdf.pdf -ot $mdf.md ]; then
+            bash $absm4p $mdf $2  # the conversion
+            echo "Pandoc'd $mdf.md" >> $log
+        fi
+    else
+        echo "skipped '$mdfile'"  # because space in name
     fi
 done
 
