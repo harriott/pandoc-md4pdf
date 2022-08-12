@@ -1,6 +1,6 @@
 #!/bin/bash
 
-# Joseph Harriott  Sun 13 Feb 2022
+# Joseph Harriott  Fri 12 Aug 2022
 
 # Recursively find all *.md files in the current directory,
 # convert those that haven't been done yet or have changed since last converted to pdf.
@@ -25,7 +25,8 @@ else
 fi
 [ ! $sure ] || [ $sure != "y" ] && exit
 
-MI=$MACHINE/jo
+MI=$ulL/Arch/$host
+echo $MI
 if [ -d $MI ]; then
     log=$MI/m4ps.log
 else

@@ -30,23 +30,26 @@ if [ $1 ]; then
   papersize="-V papersize:A4"
   geometry="-V geometry:hmargin=1cm,vmargin='{1cm,2cm}'" # bottom margin must be 2cm for footer
   #
-  mainfont=(
-    "-V mainfont=Arimo" \
-    "-V mainfont='Arimo Regular Nerd Font Complete'" \
-    "-V mainfont=DejaVuSerif" \
-    "-V mainfont='Liberation Sans'" \
-    "-V mainfont='Open Sans'" \
-    "-V mainfont='Ubuntu Nerd Font Complete'" \
-  )
-  fontsize=(
-    "-V fontsize=12pt" \
-    '' \
-    '' \
-    '' \
-  )
-  m4pfont=1
-  # 12pt allows full-page readability in a smartphone
-  #
+  # main font
+    mainfont=(
+      "-V mainfont=Arimo" \
+      "-V mainfont='Arimo Regular Nerd Font Complete'" \
+      "-V mainfont=DejaVuSerif" \
+      "-V mainfont='Liberation Sans'" \
+      "-V mainfont='Open Sans'" \
+      "-V mainfont='Ubuntu Nerd Font Complete'" \
+    )
+    fontsize=(
+      "-V fontsize=12pt" \
+      "-V fontsize=12pt" \
+      '' \
+      '' \
+      '' \
+      "-V fontsize=12pt" \
+    )  # undefined defaults to 10pt
+       # 12pt allows full-page readability in a smartphone
+    m4pfont=1  # 1 selects 2nd array item
+    #
   monofont="-V monofont='Ubuntu Mono'" # positioning gets messed up if the page isn't wide enough
   #
   CJKmainfont="-V CJKmainfont='Noto Sans CJK SC:style=Regular'"
@@ -78,8 +81,14 @@ if [ $1 ]; then
 
     # echo $Command
     eval $Command
-    [[ -f $se ]] && { [[ -s $se ]] || rm $se; } # removes it if it's empty
-
+    # [[ -f $se ]] && { [[ -s $se ]] || rm $se; } # removes it if it's empty
+    if [ -f $se ]; then
+      if [ -s $se ]; then
+        echo $se  # there was a Pandoc error
+      else
+        rm $se  # empty, so remove it
+      fi
+    fi
     # sed -n '/\[makePDF] Source:/{n;:a;N;/end{document}/!ba;p}' stdout.tex > md4pdf-raw.tex # for diagnosis (can xelatex directly)
 
     # Tidy up:

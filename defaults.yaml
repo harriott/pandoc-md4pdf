@@ -2,7 +2,7 @@
 # system-independent Pandoc configuration for my Text Notes
 # ---------------------------------------------------------
 # symlinked in
-#  $ARCHBUILDS/build-scripts/36-symlinks-softwares.sh
+#  $bs/36-symlinks-softwares.sh
 #  $MSWin10/symlinks.ps1
 
 pdf-engine: xelatex
