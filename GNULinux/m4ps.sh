@@ -25,7 +25,7 @@ else
 fi
 [ ! $sure ] || [ $sure != "y" ] && exit
 
-MI=$ulL/Arch/$host
+MI=$ulLinux/Arch/$host
 echo $MI
 if [ -d $MI ]; then
     log=$MI/m4ps.log

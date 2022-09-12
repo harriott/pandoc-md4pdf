@@ -1,15 +1,21 @@
 # vim: set fdl=2:
 
-# Joseph Harriott   Thu 12 Aug 2021
+# Joseph Harriott - Mon 12 Sep 2022
 
 # Engine to convert markdown file to pdf nicely.
 # ----------------------------------------------
-# Call this from a wrapper: md4pdf.ps1 md-file-basename [pandoc-toc-settings]
+# Call this from a wrapper:  md4pdf.ps1 <md-file-basename> [-gfm] [-ToC] [-debugCommand]
 
-param( [string]$mdbn=$(throw "$PSCommandPath requires an md file basename"), [switch]$ToC, [switch]$debugCommand )
+param( [string]$mdbn=$(throw "$PSCommandPath requires an md file basename"), [switch]$gfm, [switch]$ToC, [switch]$debugCommand )
 
-$mdf="$mdbn.md"
-if (test-path "$mdf") {
+if ($gfm) {
+  $from = "-f gfm"
+  $mf="$mdbn.gfm"
+} else {
+  $from = "-f markdown_strict"
+  $mf="$mdbn.md"
+  }
+if (test-path "$mf") {
 
   # Generate the specific include-in-header file
   # --------------------------------------------
@@ -34,7 +40,6 @@ if (test-path "$mdf") {
 
   # first, assume using strict markdown, prepare Pandoc variables
   # -------------------------------------------------------------
-  $from = "-f markdown_strict"
   $papersize = "-V papersize:A4"
   $hmargins = "-V geometry:hmargin=1cm"
   $vmargins = "-V geometry:vmargin='{1cm,2cm}'"
@@ -51,7 +56,7 @@ if (test-path "$mdf") {
     # prepare a yaml metadata block, and possibly a contents-separating line
     # $BeforeContent = get-content "$agnostic\metadata-vim.yaml", "$PSScriptRoot\metadata.yaml", "$agnostic\metadata.yaml", $sl
     # $strict = ""
-  $mdContent = get-content $mdf  # gets the original markdown into an array
+  $mdContent = get-content $mf  # gets the original markdown into an array
   # write the  markdown  file that will be used for conversion, without the first line
   # $BeforeContent, $mdContent[1..$mdContent.count] | Set-Content md4pdf.md
   $BeforeContent, $mdContent[1..$mdContent.count] | Set-Content $md4md
@@ -60,7 +65,7 @@ if (test-path "$mdf") {
 
   # (try to) Pandoc
   # ---------------
-  if ($debugCommand) { $verbose = "--verbose 2> $mdf-stderr.txt" }
+  if ($debugCommand) { $verbose = "--verbose 2> $mf-stderr.txt" }
   $Command = "pandoc $md4md $strict -H $agnostic\iih\iih.tex -H $iih -d md4pdf $dToC -o $mdbn.pdf $verbose"
     # the yaml  md4pdf  is set in  $onGH\MSWin10\symlinks.ps1  to point at  $MD4PDF\defaults .yaml
   iex $Command
@@ -75,6 +80,6 @@ if (test-path "$mdf") {
 }else{
   # the proposed markdown file wasn't found
   Write-Host "$PSCommandPath : file " -foregroundcolor red -backgroundcolor white -nonewline;
-  Write-Host "$mdf" -foregroundcolor red -backgroundcolor yellow -nonewline;
+  Write-Host "$mf" -foregroundcolor red -backgroundcolor yellow -nonewline;
   Write-Host " ain't there" -foregroundcolor red -backgroundcolor white
 }

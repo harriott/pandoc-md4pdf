@@ -1,23 +1,33 @@
-# vim: set fdl=1:
+# vim: set fdl=2:
 
-# Joseph Harriott  Thu 12 Aug 2021
+# Joseph Harriott  Mon 12 Sep 2022
 
-# Convert a single markdown file to pdf nicely.
-# ---------------------------------------------
+# Pandoc  a single  Markdown  file to  pdf  nicely.
+# -------------------------------------------------
 
-param( [string]$md=$(throw "$PSCommandPath requires an md file"), [switch]$noToC, [switch]$debugCommand )
+param( [string]$mf=$(throw "$PSCommandPath  requires a  gfm  or  md  file"), [switch]$gfm, [switch]$noToC, [switch]$debugCommand )
 
-$mdfbn=$md -replace '\.md$','' # get md file basename
-$mdf=$mdfbn + ".md"
-if (test-path "$mdf") {
-    if ($noToC) { [bool]$ToC=0 } else { [bool]$ToC=1 } # Table of Contents
-    "running pandoc on $mdf"
-    $Command = "$PSScriptRoot\md4pdf.ps1 $mdfbn -ToC:$"+$ToC+" -debugCommand:$"+$debugCommand
-    PowerShell -NoProfile $command
+if ($gfm) {
+  $gfmF = '-gfm'
+  $gfmFbn=$mf -replace '\.gfm$','' # get  gfm  file basename
+  $mf=$gfmFbn + ".gfm"
+} else {
+  $gfmF = ''
+  $gfmFbn=$mf -replace '\.md$','' # get  md  file basename
+  $mf=$gfmFbn + ".md"
+}
+
+if (test-path "$mf") {
+  if ($noToC) { $ToCF = '' } else { $ToCF = '-ToC' }
+  if ($debugCommand) { $debugCommandF = '-debugCommand' } else { $debugCommandF = '' }
+  "running pandoc on $mf"
+  $Command = "$PSScriptRoot\md4pdf.ps1 $gfmFbn $gfmF $ToCF $debugCommandF"
+  PowerShell -NoProfile $command
 }else{
     Write-Host "$PSCommandPath : file " -foregroundcolor red -backgroundcolor white -nonewline;
-    Write-Host "$mdf" -foregroundcolor red -backgroundcolor yellow -nonewline;
+    Write-Host "$mf" -foregroundcolor red -backgroundcolor yellow -nonewline;
     Write-Host " ain't there" -foregroundcolor red -backgroundcolor white
 }
 
 ri -recurse tex2pdf.????* # remove trailing work folders
+
