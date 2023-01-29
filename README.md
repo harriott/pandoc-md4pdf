@@ -1,12 +1,12 @@
+vim: se fdl=3:
+
 md4pdf
 ======
 
 For `markdown` files containing up to five level of heading, here are three small resources for smoother conversion to pdf using `Pandoc` calling `XeLaTeX`.
 
-The first line of the markdown file is assumed to be a `vim` modeline, and is stripped out before the conversion.
-
 ### Requirements
-`Windows 10`: `LaTeX`, `Pandoc` and a `pdf` viewer that doesn't lock the `pdf` file, such as `SumatraPDF`.
-
-The `bash` version assumes that an environment variable `$MD4PDF` has been set to the the path of this file's directory.
+- `LaTeX`, `Pandoc` and my adapted [pandoc-templates](https://github.com/harriott/pandoc-templates)
+- `Linux`: environment variable `$MD4PDF` set to the the path of this file's directory
+- `Windows 10`: a `pdf` viewer that doesn't lock the `pdf` file, such as `SumatraPDF`
 
