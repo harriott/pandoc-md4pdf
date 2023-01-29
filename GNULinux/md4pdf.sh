@@ -1,13 +1,17 @@
 #!/bin/bash
 # vim: set sw=2:
 
-# Joseph Harriott - Wed 10 Nov 2021
+# Joseph Harriott - Sat 07 Jan 2023
 
-# Engine to convert markdown file to pdf nicely.
-# -----------------------------------------------------
-# Call this from a wrapper: md4pdf.sh <md-file-basename> <flag_for_ToC>
+# engine to convert markdown file to pdf nicely
+# ---------------------------------------------
+# $MD4PDF/GNULinux/md4pdf.sh
 
-if [ $1 ]; then
+if [[ $1 && $2 ]]; then
+
+  mdf=$1.md; [ $2 = 0 ] && mdf=$1.gfm
+  [ -f $mdf ] || exit
+  # [ -f $1.gfm ] || [ -f $1.md ] || exit
 
   # generate the specific include-in-header file
   # --------------------------------------------
@@ -19,14 +23,15 @@ if [ $1 ]; then
   lenfmdpn=${#fullmdpathname}
   croppedmdpn=${fullmdpathname: -$(($lenfmdpn<77? $lenfmdpn : 77))}
   cmdpn0=${croppedmdpn//_/\\_} # (escaping any underscores in filename for passing to TeX)
-  cmdpn1=${cmdpn0//#/\\#} # (escaping any hashes in filename for passing to TeX)
+  source $MD4PDF/GNULinux/md4pdf-cmdpn1.sh
   # store LaTeX code
   echo " \renewcommand\contentsname{\normalsize $cmdpn1} " > $iih
   echo " \cfoot{ {\textcolor{lightgray}{$cmdpn1}} \quad p.\thepage\ of \pageref{LastPage}} " >> $iih
 
-  # first, assume using strict markdown, prepare Pandoc variables
-  # -------------------------------------------------------------
+  # first prepare Pandoc variables
+  # ------------------------------
   from="-f markdown_strict"
+  [ $2 = 0 ] && from="-f gfm"
   papersize="-V papersize:A4"
   geometry="-V geometry:hmargin=1cm,vmargin='{1cm,2cm}'" # bottom margin must be 2cm for footer
   #
@@ -55,28 +60,28 @@ if [ $1 ]; then
   CJKmainfont="-V CJKmainfont='Noto Sans CJK SC:style=Regular'"
   CJKoptions="-V CJKoptions=AutoFakeBold"
   #
-  strict="$from $papersize $geometry ${fontsize[$m4pfont]} ${mainfont[$m4pfont]} $monofont $CJKmainfont $CJKoptions"
+  fpgfmmCC="$from $papersize $geometry ${fontsize[$m4pfont]} ${mainfont[$m4pfont]} $monofont $CJKmainfont $CJKoptions"
 
   # prepare the md file for conversion
   # ----------------------------------
-  md4pdf=$1-md4pdf.md
-  if [ $2 ]; then
+  md4pdf=$1-md4pdf.md; [ $2 = 0 ] && md4pdf=$1-md4pdf.gfm
+  if [ $3 ]; then
+    sed -n '2,$p' "$mdf" > $md4pdf
+  else
     dToC="-d md4pdfToC"  #  ~/.pandoc/defaults/md4pdfToC.yaml  =  $MD4PDF/defaults-toc.yaml
     cp "$MD4PDF/separatorLine.md" $md4pdf
-    sed -n '2,$p' "$1.md" >> $md4pdf
-  else
-    sed -n '2,$p' "$1.md" > $md4pdf
+    sed -n '2,$p' "$mdf" >> $md4pdf
   fi
 
   # (try to) Pandoc
   # ---------------
-    echo "running Pandoc on $1.md" # (try to) Pandoc
+    echo "running Pandoc on $mdf" # (try to) Pandoc
     # highlight headings that are too deep
     grep "^$headingtoodeep " $md4pdf
 
     se=$1-stderr.txt
     # verbose=--verbose
-    Command="(pandoc $md4pdf $strict -H $MD4PDF/iih/iih.tex -H $iih -d md4pdf $dToC -o $1.pdf $verbose) 2> $se"
+    Command="(pandoc $md4pdf $fpgfmmCC -H $MD4PDF/iih/iih.tex -H $iih -d md4pdf $dToC -o $1.pdf $verbose) 2> $se"
     #  ~/.pandoc/defaults/md4pdf.yaml  =  $MD4PDF/defaults.yaml  which calls the template
 
     # echo $Command
@@ -93,5 +98,9 @@ if [ $1 ]; then
 
     # Tidy up:
     rm $md4pdf $iih  # comment this if intending to use the the contents of $Command after this script
+else
+  echo 'md4pdf.sh <md-file-basename> <flag_for_markdown> <flag_for_ToC>'
+  echo ' [ $2 = 0 ] GitHub-Flavored Markdown (otherwise original unextended markdown)'
+  echo ' [ $3 ] switch off ToC'
 fi
 

@@ -19,26 +19,26 @@ if ($reply -eq 'y') {
   gci -r -i *.md| # get all the markdown files recursively
     foreach{
       $fn=$_.basename
-        $md=$_.fullname
-        $mdt=$_.LastWriteTime
-        "$md -> $mdt" # print the markdown file's fullname with LastWriteTime
-        $gp=$false # set a "go pdf" boolean
-        $pdf=$_.directoryname+"\"+$fn+".pdf"
-        if ($redo) {$gp=$true;Write-Host "$pdf -- to (re)do" -foreground Gray}
-        else{
-          if (test-path "$pdf"){
-            gi "$pdf"|
-              foreach{
-                $pdft=$_.LastWriteTime;
-                # print a newer pdf's name & time:
-                if($pdft -gt $mdt){Write-Host "$pdf > $pdft" -foreground Gray}
-                # or signal an old pdf is to be redone:
-                else{$gp=$true;Write-Host "$pdf > $pdft - to redo" -foreground Gray}
-              }
-          }
-          # no pdf, so signal it's to be done:
-          else{$gp=$true;Write-Host "$pdf -- not yet made" -foreground Gray}
+      $md=$_.fullname
+      $mdt=$_.LastWriteTime
+      "$md -> $mdt" # print the markdown file's fullname with LastWriteTime
+      $gp=$false # set a "go pdf" boolean
+      $pdf=$_.directoryname+"\"+$fn+".pdf"
+      if ($redo) {$gp=$true;Write-Host "$pdf -- to (re)do" -foreground Gray}
+      else{
+        if (test-path "$pdf"){
+          gi "$pdf"|
+            foreach{
+              $pdft=$_.LastWriteTime;
+              # print a newer pdf's name & time:
+              if($pdft -gt $mdt){Write-Host "$pdf > $pdft" -foreground Gray}
+              # or signal an old pdf is to be redone:
+              else{$gp=$true;Write-Host "$pdf > $pdft - to redo" -foreground Gray}
+            }
         }
+        # no pdf, so signal it's to be done:
+        else{$gp=$true;Write-Host "$pdf -- not yet made" -foreground Gray}
+      }
       if($gp){
         Write-Host "- running pandoc" -foreground Gray
           $mdp = $md -replace '\.md$','' # md file's basepathname
