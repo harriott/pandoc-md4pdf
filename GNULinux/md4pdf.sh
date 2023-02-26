@@ -30,7 +30,7 @@ if [[ $1 && $2 ]]; then
 
   # first prepare Pandoc variables
   # ------------------------------
-  from="-f markdown_strict"
+  from="-f markdown_strict+backtick_code_blocks"
   [ $2 = 0 ] && from="-f gfm"
   papersize="-V papersize:A4"
   geometry="-V geometry:hmargin=1cm,vmargin='{1cm,2cm}'" # bottom margin must be 2cm for footer

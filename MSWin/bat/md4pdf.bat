@@ -1,11 +1,13 @@
 @echo off
 rem vim: set tw=0:
-rem Joseph Harriott - http://momentary.eu/ 26/11/14
+rem Joseph Harriott - http://harriott.github.io - Sun 26 Feb 2023
 rem Convert markdown file to pdf nicely.
 rem Put this script in your path (eg C:\Users\jo\AppData\Local\Pandoc),
 rem and call it from the markdown file's directory thus: md4pdf basename.
 rem ---------------------------------------------------------------------
-rem DEPRECATED
+
+rem !! DEPRECATED !!
+rem only kept for historical reference
 
 setlocal & rem all variables now local
 
