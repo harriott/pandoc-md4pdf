@@ -19,6 +19,6 @@ pdf-engine: xelatex
 
 # production, xcolor disabled
 # ---------------------------
-# select  $onGH/pandoc-templates/default-jh-2.latex
+# select  $onGH/pandoc-templates/defaultJH2.latex
 template: defaultJH2
 

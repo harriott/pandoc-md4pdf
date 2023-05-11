@@ -55,7 +55,10 @@ if [[ $1 && $2 ]]; then
        # 12pt allows full-page readability in a smartphone
     m4pfont=1  # 1 selects 2nd array item
     #
-  monofont="-V monofont='Ubuntu Mono'" # positioning gets messed up if the page isn't wide enough
+  # mono font
+  # positioning gets messed up if the page isn't wide enough
+  monofont="-V monofont='Ubuntu Mono'"
+  # monofont="-V monofont='Source Code Pro'"
   #
   CJKmainfont="-V CJKmainfont='Noto Sans CJK SC:style=Regular'"
   CJKoptions="-V CJKoptions=AutoFakeBold"
@@ -80,7 +83,7 @@ if [[ $1 && $2 ]]; then
     grep "^$headingtoodeep " $md4pdf
 
     se=$1-stderr.txt
-    # verbose=--verbose
+    # verbose=--verbose  # for debugging
     Command="(pandoc $md4pdf $fpgfmmCC -H $MD4PDF/iih/iih.tex -H $iih -d md4pdf $dToC -o $1.pdf $verbose) 2> $se"
     #  ~/.pandoc/defaults/md4pdf.yaml  =  $MD4PDF/defaults.yaml  which calls the template
 
@@ -89,15 +92,22 @@ if [[ $1 && $2 ]]; then
     # [[ -f $se ]] && { [[ -s $se ]] || rm $se; } # removes it if it's empty
     if [ -f $se ]; then
       if [ -s $se ]; then
-        echo $se  # there was a Pandoc error
+        echo $se  # there was a Pandoc error, check also for verbose output
+        Tcf='\[makePDF] Source:'  # TeX code would follow this line
+        if [[ -n $(grep "$Tcf" $se) ]]; then
+          tex=$1-md4pdf-raw.tex
+          sed -n "/$Tcf"'/{n;:a;N;/end{document}/!ba;p}' $se > $tex
+          echo $tex  # raw TeX output was created
+          # fd -tf -e tex '\-md4pdf-raw.tex' -X rm
+          # fd -tf -e txt '\-stderr.txt' -X rm
+        fi
       else
         rm $se  # empty, so remove it
       fi
     fi
-    # sed -n '/\[makePDF] Source:/{n;:a;N;/end{document}/!ba;p}' stdout.tex > md4pdf-raw.tex # for diagnosis (can xelatex directly)
 
     # Tidy up:
-    rm $md4pdf $iih  # comment this if intending to use the the contents of $Command after this script
+    rm $md4pdf $iih  # comment this if intending to use the the contents of  $Command  after this script
 else
   echo 'md4pdf.sh <md-file-basename> <flag_for_markdown> <flag_for_ToC>'
   echo ' [ $2 = 0 ] GitHub-Flavored Markdown (otherwise original unextended markdown)'

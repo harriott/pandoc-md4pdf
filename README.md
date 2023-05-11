@@ -1,5 +1,7 @@
 vim: se fdl=4:
 
+    $MD4PDF/README.md
+
 md4pdf
 ======
 
