@@ -30,6 +30,7 @@ if [[ $1 && $2 ]]; then
 
   # first prepare Pandoc variables
   # ------------------------------
+  # filter="-F pandoc-latex-fontsize"
   from="-f markdown_strict+backtick_code_blocks"
   [ $2 = 0 ] && from="-f gfm"
   papersize="-V papersize:A4"
@@ -57,13 +58,13 @@ if [[ $1 && $2 ]]; then
     #
   # mono font
   # positioning gets messed up if the page isn't wide enough
-  monofont="-V monofont='Ubuntu Mono'"
-  # monofont="-V monofont='Source Code Pro'"
+  # monofont="-V monofont='Ubuntu Mono'"
+  monofont="-V monofont='Source Code Pro' -V monofontoptions:'Scale=0.9'"
   #
   CJKmainfont="-V CJKmainfont='Noto Sans CJK SC:style=Regular'"
   CJKoptions="-V CJKoptions=AutoFakeBold"
   #
-  fpgfmmCC="$from $papersize $geometry ${fontsize[$m4pfont]} ${mainfont[$m4pfont]} $monofont $CJKmainfont $CJKoptions"
+  fpgfmmCC="$filter $from $papersize $geometry ${fontsize[$m4pfont]} ${mainfont[$m4pfont]} $monofont $CJKmainfont $CJKoptions"
 
   # prepare the md file for conversion
   # ----------------------------------

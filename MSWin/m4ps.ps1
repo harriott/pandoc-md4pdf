@@ -1,6 +1,7 @@
 # vim: set fdl=5:
 
 # Joseph Harriott  Thu 15 Jul 2021
+# $MD4PDF\MSWin\m4ps.ps1
 
 # Recursively find all *.md files in the current directory, convert those that haven't been done yet or have changed since last converted to pdf. Use LaTeX Chapter as the first level heading, and Subsubsection as the 4th (and preferably last) level heading. Apply some neater formatting.
 

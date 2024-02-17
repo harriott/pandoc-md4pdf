@@ -1,6 +1,7 @@
 # vim: set fdl=2:
 
-# Joseph Harriott  Mon 12 Sep 2022
+# Joseph Harriott  Sat 17 Feb 2024
+# $MD4PDF\MSWin\m4p.ps1
 
 # Pandoc  a single  Markdown  file to  pdf  nicely.
 # -------------------------------------------------

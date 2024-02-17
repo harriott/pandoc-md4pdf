@@ -1,6 +1,6 @@
 #!/bin/bash
 
-# Joseph Harriott  Mon 15 Jan 2024
+# Joseph Harriott  Thu 25 Jan 2024
 
 # $MD4PDF/GNULinux/m4ps.sh
 
@@ -16,6 +16,7 @@
 if [ $1 ]; then
 
     fd md4pdf.md -x rm  # just incase this script was stopped previously
+    if [[ $(fd stderr.txt) ]]; then fd stderr.txt; exit; fi
 
     absm4p="$( dirname "${BASH_SOURCE[0]}" )/md4pdf.sh"  # $MD4PDF/GNULinux/md4pdf.sh
 

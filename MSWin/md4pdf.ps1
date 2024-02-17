@@ -1,6 +1,7 @@
 # vim: set fdl=2:
 
-# Joseph Harriott - Mon 12 Sep 2022
+# Joseph Harriott - Sat 17 Feb 2024
+# $MD4PDF\MSWin\md4pdf.ps1
 
 # Engine to convert markdown file to pdf nicely.
 # ----------------------------------------------
@@ -45,9 +46,10 @@ if (test-path "$mf") {
   $vmargins = "-V geometry:vmargin='{1cm,2cm}'"
   $fontsize = "-V fontsize=12pt" # for full-page readability in a smartphone
   $mainfont = "-V mainfont=Arial"
+  $monofont = "-V monofont='Source Code Pro'"
   $CJKmainfont = "-V CJKmainfont='Noto Sans CJK SC Regular'"
   $CJKoptions = "-V CJKoptions=AutoFakeBold"
-  $strict = "$from $papersize $hmargins $vmargins $fontsize $mainfont $CJKmainfont $CJKoptions"
+  $strict = "$from $papersize $hmargins $vmargins $fontsize $mainfont $monofont $CJKmainfont $CJKoptions"
 
   # build the file for conversion
   # -----------------------------
