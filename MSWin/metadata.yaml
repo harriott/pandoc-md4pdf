@@ -1,6 +1,8 @@
 
 # metadata middle: MSWin specific
 # -------------------------------
+# only used when using Pandoc's highly sensitive version of Markdown
 
 # fonts
 mainfont: Arial
+

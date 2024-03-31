@@ -34,7 +34,7 @@ if (test-path "$mf") {
   $agnostic = Split-Path $PSScriptRoot -parent
   if ($ToC) {
     $dToC = "-d md4pdfToC"
-      # md4pdfToC  is set in  $onGH\MSWin10\symlinks.ps1  to point at  $MD4PDF\defaults-toc.yaml
+      # md4pdfToC  is set in  $MSWin10\mb\symlinks.ps1  to point at  $MD4PDF\defaults-toc.yaml
     $sl="$agnostic\separatorLine.md"
     $BeforeContent = get-content $sl
     }
@@ -46,7 +46,10 @@ if (test-path "$mf") {
   $vmargins = "-V geometry:vmargin='{1cm,2cm}'"
   $fontsize = "-V fontsize=12pt" # for full-page readability in a smartphone
   $mainfont = "-V mainfont=Arial"
-  $monofont = "-V monofont='Source Code Pro'"
+  # $monofont = "-V monofont='Cascadia Code'"
+  # $monofont = "-V monofont=Consolas"  # $CrPl\Pandoc\Consolas_hyphen_snag.md
+  $monofont = "-V monofont='Lucida Console'"
+  # $monofont = "-V monofont='Source Code Pro'"
   $CJKmainfont = "-V CJKmainfont='Noto Sans CJK SC Regular'"
   $CJKoptions = "-V CJKoptions=AutoFakeBold"
   $strict = "$from $papersize $hmargins $vmargins $fontsize $mainfont $monofont $CJKmainfont $CJKoptions"
@@ -60,19 +63,20 @@ if (test-path "$mf") {
     # $strict = ""
   $mdContent = get-content $mf  # gets the original markdown into an array
   # write the  markdown  file that will be used for conversion, without the first line
-  # $BeforeContent, $mdContent[1..$mdContent.count] | Set-Content md4pdf.md
   $BeforeContent, $mdContent[1..$mdContent.count] | Set-Content $md4md
-  #  - this file is subsequently pointed at in the  md4pdf  yaml
-  if ($mdContent -match '^######') {Write-Host "attempted sixth-level heading" -foreground 'DarkCyan'}  # minor warning
+  if ($mdContent -match '^######') {
+    $sixth = 1
+    write-host "attempted sixth-level heading" -foreground 'DarkCyan'  # minor warning
+  }
 
   # (try to) Pandoc
   # ---------------
   if ($debugCommand) { $verbose = "--verbose 2> $mf-stderr.txt" }
   $Command = "pandoc $md4md $strict -H $agnostic\iih\iih.tex -H $iih -d md4pdf $dToC -o $mdbn.pdf $verbose"
-    # the yaml  md4pdf  is set in  $onGH\MSWin10\symlinks.ps1  to point at  $MD4PDF\defaults .yaml
+    # the yaml  md4pdf  is set in  $MSWin10\mb\symlinks.ps1  to point at  $MD4PDF\defaults.yaml
   iex $Command
   if ($debugCommand) {
-    $Command
+    $Command.replace('d md4pdf','d $MD4PDF\defaults.yaml')
     } else {
     # tidy up
     ri $iih -erroraction 'silentlycontinue'

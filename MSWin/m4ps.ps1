@@ -44,7 +44,7 @@ if ($reply -eq 'y') {
         Write-Host "- running pandoc" -foreground Gray
           $mdp = $md -replace '\.md$','' # md file's basepathname
         $Command = "$PSScriptRoot\md4pdf.ps1 $mdp -ToC:$"+$ToC
-        PowerShell -NoProfile $command
+        pwsh -nop -c $command
       }
     }
   }
@@ -55,4 +55,6 @@ ri tex2pdf.???* # remove trailing work folders (sometimes without success, due t
 [System.Console]::ForegroundColor = 'Cyan'
 gci -r "*-md4pdfLog.tex" | %{echo $_.fullname}
 [System.Console]::ResetColor()
+
+if ($sixth) {write-host "There were sixth-level headings." -foreground 'DarkCyan'}
 
