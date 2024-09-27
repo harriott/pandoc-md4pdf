@@ -15,9 +15,16 @@ For `markdown` files containing up to five level of heading, here are three smal
 - `Windows 10`: a `pdf` viewer that doesn't lock the `pdf` file, such as `SumatraPDF`
 
 - heading styles are decided by whichever file is symlinked to `latex/m4p/headings.sty` - in my case, decided in the `Pandoc` sections of these shell configuration files:
-    - [$Bash/bashrc-wm](https://github.com/harriott/OS-ArchBuilds/blob/master/jo/Bash/bashrc-wm)
+    - [$AjB/bashrc-wm](https://github.com/harriott/OS-ArchBuilds/blob/master/jo/Bash/bashrc-wm)
     - [$MSWin10/PSProfile.ps1](https://github.com/harriott/OS-MSWin10/blob/master/PSProfile.ps1)
 - your Pandoc's `defaults` directory needs these:
     - `md4pdfToC.yaml` - symlinked from `$MD4PDF/defaults-toc.yaml`
     - `md4pdf.yaml` - symlinked from `$MD4PDF/defaults.yaml`
+
+### fonts
+`Arimo Regular Nerd Font Complete` can handle ""
+
+#### language snags
+- Burmese
+- `-V CJKmainfont='Noto Sans CJK SC:style=Regular'` doesn't cope with "长城"
 

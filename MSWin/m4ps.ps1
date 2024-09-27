@@ -13,7 +13,7 @@ if ($noToC) { [bool]$ToC=0 } else { [bool]$ToC=1 } # Table of Contents
 if ($sure) {$reply = 'y'} else {
   Write-Host 'About to recursively create a load of PDFs from markdowns ' -NoNewline
   [System.Console]::ForegroundColor = 'Yellow'
-  $reply = Read-Host '- are you in the right parent directory? '
+  $reply = read-host '- are you in the right parent directory? '
   [System.Console]::ResetColor()
   }
 if ($reply -eq 'y') {

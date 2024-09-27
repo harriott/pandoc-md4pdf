@@ -11,11 +11,14 @@
 #  (and preferably last) level heading. Apply some neater formatting.
 # --------------------------------------------------------------------------------------
 
-# m4ps, m4ps1, mt  are defined in  $Bash/bashrc-wm
+# m4ps  m4psm  mt  are defined in  $AjB/bashrc-wm
 
 if [ $1 ]; then
 
-    fd md4pdf.md -x rm  # just incase this script was stopped previously
+    # just incase this script was stopped previously
+    fd 'md4pdf\.md' -x rm
+    fd 'md4pdf\.pdf' -u -x rm
+
     if [[ $(fd stderr.txt) ]]; then fd stderr.txt; exit; fi
 
     absm4p="$( dirname "${BASH_SOURCE[0]}" )/md4pdf.sh"  # $MD4PDF/GNULinux/md4pdf.sh
@@ -28,7 +31,7 @@ if [ $1 ]; then
     [ ! $sure ] || [ $sure != "y" ] && exit
 
     if [ -d $machLg ]; then
-        log=$machLg/m4ps.log
+        log="$machLg/m4ps.log"
     else
         log=$HOME/m4ps.log
     fi

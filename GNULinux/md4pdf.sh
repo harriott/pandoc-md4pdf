@@ -6,6 +6,9 @@
 # engine to convert markdown file to pdf nicely
 # ---------------------------------------------
 # $MD4PDF/GNULinux/md4pdf.sh
+#  sourced by
+#   $MD4PDF/GNULinux/m4p.sh
+#   $MD4PDF/GNULinux/m4ps.sh
 
 if [[ $1 && $2 ]]; then
 
@@ -88,7 +91,7 @@ if [[ $1 && $2 ]]; then
     Command="(pandoc $md4pdf $fpgfmmCC -H $MD4PDF/iih/iih.tex -H $iih -d md4pdf $dToC -o $1.pdf $verbose) 2> $se"
     #  ~/.pandoc/defaults/md4pdf.yaml  =  $MD4PDF/defaults.yaml  which calls the template
 
-    # echo $Command
+    echo $Command > $MD4PDF/GNULinux/md4pdf-command.sh
     eval $Command
     # [[ -f $se ]] && { [[ -s $se ]] || rm $se; } # removes it if it's empty
     if [ -f $se ]; then

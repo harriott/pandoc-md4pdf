@@ -6,7 +6,7 @@
 # Convert a single markdown file to pdf nicely.
 # ---------------------------------------------
 # bash $MD4PDF/GNULinux/m4p.sh
-# m4p  is defined in   $Bash/bashrc-wm
+# m4p  is defined in   $AjB/bashrc-wm
 
 if [ $1 ]; then
   if [ -s $1 ]; then
