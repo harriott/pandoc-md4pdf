@@ -89,3 +89,6 @@ if (test-path "$mf") {
   Write-Host "$mf" -foregroundcolor red -backgroundcolor yellow -nonewline;
   Write-Host " ain't there" -foregroundcolor red -backgroundcolor white
 }
+
+# if something broke,  sl $TeNo; fd md4pdf
+

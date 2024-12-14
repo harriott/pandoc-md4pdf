@@ -22,7 +22,7 @@ For `markdown` files containing up to five level of heading, here are three smal
     - `md4pdf.yaml` - symlinked from `$MD4PDF/defaults.yaml`
 
 ### fonts
-`Arimo Regular Nerd Font Complete` can handle ""
+`Arimo Regular Nerd Font Complete` can handle "•"
 
 #### language snags
 - Burmese
