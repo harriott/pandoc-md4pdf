@@ -28,3 +28,9 @@ For `markdown` files containing up to five level of heading, here are three smal
 - Burmese
 - `-V CJKmainfont='Noto Sans CJK SC:style=Regular'` doesn't cope with "长城"
 
+### list limits
+- first level
+    - second level
+        - third level
+            - fourth and last level, more than this throws "LaTeX Error: Too deeply nested."
+

@@ -47,7 +47,7 @@ if (test-path "$mf") {
   $fontsize = "-V fontsize=12pt" # for full-page readability in a smartphone
   $mainfont = "-V mainfont=Arial"
   # $monofont = "-V monofont='Cascadia Code'"
-  # $monofont = "-V monofont=Consolas"  # $CrPl\Pandoc\Consolas_hyphen_snag.md
+  # $monofont = "-V monofont=Consolas"  # $ITsCP\Pandoc\Consolas_hyphen_snag.md
   $monofont = "-V monofont='Lucida Console'"
   # $monofont = "-V monofont='Source Code Pro'"
   $CJKmainfont = "-V CJKmainfont='Noto Sans CJK SC Regular'"
