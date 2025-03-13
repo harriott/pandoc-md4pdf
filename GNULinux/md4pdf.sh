@@ -42,11 +42,11 @@ if [[ $1 && $2 ]]; then
   # main font
     mainfont=(
       "-V mainfont=Arimo" \
-      "-V mainfont='Arimo Regular Nerd Font Complete'" \
+      "-V mainfont=ArimoNerdFont" \
       "-V mainfont=DejaVuSerif" \
       "-V mainfont='Liberation Sans'" \
       "-V mainfont='Open Sans'" \
-      "-V mainfont='Ubuntu Nerd Font Complete'" \
+      "-V mainfont=UbuntuMonoNerdFontMono" \
     )
     fontsize=(
       "-V fontsize=12pt" \
@@ -58,6 +58,7 @@ if [[ $1 && $2 ]]; then
     )  # undefined defaults to 10pt
        # 12pt allows full-page readability in a smartphone
     m4pfont=1  # 1 selects 2nd array item
+    # m4pfont=5  # 5 selects 4th array item
     #
   # mono font
   # positioning gets messed up if the page isn't wide enough
